@@ -759,31 +759,41 @@ export default function App() {
 
                 {/* 3. PROVIDER AUTHENTICATION REQUIRED CARD */}
                 {msg.authRequest && (
-                  <div className="bg-yellow-950/30 border-2 border-yellow-500/50 rounded-xl p-4.5 space-y-3 shadow-lg">
-                    <div className="flex items-center space-x-2 text-yellow-400 font-semibold text-sm">
-                      <KeyRound className="w-5 h-5 text-yellow-400 animate-pulse" />
-                      <span>Provider Authentication Required: {msg.authRequest.provider}</span>
+                  <div className="bg-amber-950/30 border-2 border-amber-500/50 rounded-xl p-5 space-y-3.5 shadow-xl">
+                    <div className="flex items-center justify-between border-b border-amber-500/20 pb-2.5">
+                      <div className="flex items-center space-x-2 text-amber-400 font-semibold text-sm">
+                        <KeyRound className="w-5 h-5 text-amber-400 animate-pulse" />
+                        <span>Swytchcode Authentication Required: {msg.authRequest.provider}</span>
+                      </div>
+                      <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-900/60 text-amber-200 uppercase font-semibold">
+                        {msg.authRequest.provider.toLowerCase().includes('notion') ? 'OAuth2 Flow' : 'Secure CLI Auth'}
+                      </span>
                     </div>
 
-                    <p className="text-xs text-yellow-100/90 leading-relaxed">
+                    <p className="text-xs text-amber-100/90 leading-relaxed">
                       {msg.authRequest.instructions}
                     </p>
 
-                    {msg.authRequest.authCommand && (
-                      <div className="p-2.5 bg-black/70 rounded-lg border border-yellow-500/30 font-mono text-xs text-amber-300 flex items-center justify-between">
-                        <span>{msg.authRequest.authCommand}</span>
-                        <span className="text-[10px] text-gray-400 font-sans">Run in terminal</span>
+                    <div className="p-3 bg-black/80 rounded-lg border border-amber-500/30 font-mono text-xs text-amber-300 flex items-center justify-between">
+                      <div className="flex items-center space-x-2">
+                        <Terminal className="w-4 h-4 text-gray-400" />
+                        <span className="select-all">{msg.authRequest.authCommand || `swytchcode auth connect ${msg.authRequest.provider.toLowerCase()}`}</span>
                       </div>
-                    )}
+                      <span className="text-[10px] text-gray-400 font-sans">Run in your terminal</span>
+                    </div>
+
+                    <p className="text-[11px] text-gray-400 italic">
+                      🔒 Swytchcode securely connects your account into its local encrypted store (<code className="text-gray-300 font-mono">~/.swytchcode/credentials.db</code>). The agent never directly stores or handles your credentials.
+                    </p>
 
                     <div className="flex items-center space-x-3 pt-1">
                       <button
                         onClick={() => handleVerifyAuth(msg)}
                         disabled={isLoading}
-                        className="px-4 py-2 rounded-lg bg-yellow-600 hover:bg-yellow-500 text-black font-semibold text-xs shadow transition flex items-center space-x-1.5"
+                        className="px-4 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-black font-semibold text-xs shadow transition flex items-center space-x-1.5"
                       >
                         <RefreshCw className="w-4 h-4" />
-                        <span>Verify & Resume Workflow</span>
+                        <span>Verify Swytchcode Connection & Resume</span>
                       </button>
                       <button
                         onClick={() => handleCancelWorkflow(msg)}

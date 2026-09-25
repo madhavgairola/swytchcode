@@ -433,7 +433,7 @@ export async function resumeWorkflowWithConfirmation(
 }
 
 /**
- * Resumes workflow after user completes provider authentication
+ * Resumes workflow after user completes provider authentication via Swytchcode
  */
 export async function resumeWorkflowWithAuth(
   workflowId: string,
@@ -444,13 +444,24 @@ export async function resumeWorkflowWithAuth(
     throw new Error(`Workflow '${workflowId}' not found.`);
   }
 
+  // Re-verify auth status via Swytchcode CLI
+  if (state.plan && state.plan.steps[state.currentStepIndex]) {
+    const currentStep = state.plan.steps[state.currentStepIndex];
+    const provider = getProviderForCanonicalId(currentStep.canonicalId);
+    const authStatus = await checkProviderAuthStatus(provider);
+
+    if (authStatus.status === 'requires_auth' && !options.bypassAuth) {
+      throw new Error(`Authentication for '${provider}' is still pending in Swytchcode. Please complete 'swytchcode auth connect ${provider.toLowerCase()}' in your terminal, then click verify.`);
+    }
+  }
+
   state.authRequest = undefined;
   state.status = 'EXECUTING';
   if (state.plan && state.plan.steps[state.currentStepIndex]) {
     state.plan.steps[state.currentStepIndex].status = 'pending';
   }
 
-  return startOrResumeWorkflow(state, { ...options, bypassAuth: true });
+  return startOrResumeWorkflow(state, options);
 }
 
 function buildAgentResponse(state: WorkflowState): AgentResponse {

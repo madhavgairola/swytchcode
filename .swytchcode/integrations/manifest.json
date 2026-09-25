@@ -3,7 +3,7 @@
     "version": "2.0.0",
     "sandbox_endpoint": "http://localhost",
     "production_endpoint": "https://api.notion.com",
-    "methods": 24,
+    "methods": 0,
     "auth": {
       "provider_slug": "Notion",
       "scopes": [],
@@ -46,7 +46,7 @@
     "version": "1.5.0",
     "sandbox_endpoint": "http://localhost",
     "production_endpoint": "https://api.resend.com",
-    "methods": 83,
+    "methods": 0,
     "auth": {
       "provider_slug": "Resend",
       "type": "api_key"
@@ -88,7 +88,7 @@
     "version": "v1",
     "sandbox_endpoint": "http://localhost",
     "production_endpoint": "https://api.weatherapi.com/v1",
-    "methods": 22,
+    "methods": 0,
     "auth": {
       "provider_slug": "WeatherAPI",
       "type": "api_key"

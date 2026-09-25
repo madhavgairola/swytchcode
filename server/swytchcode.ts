@@ -91,48 +91,67 @@ export async function getMethodInfo(canonicalId: string): Promise<any | null> {
 }
 
 /**
- * Checks authentication and authorization status for a specific integration provider
+ * Checks authentication and authorization status for a specific integration provider via Swytchcode CLI
  */
 export async function checkProviderAuthStatus(providerName: string): Promise<{
   connected: boolean;
-  status: 'connected' | 'sandbox_available' | 'requires_auth';
+  status: 'connected' | 'requires_auth';
+  authType?: 'oauth2' | 'api_key';
+  account?: string;
   details?: string;
 }> {
-  // Check environment variables first
-  const normalized = providerName.toLowerCase();
-  if (normalized.includes('weather') && (config.weatherApiKey || process.env.WEATHER_API_KEY)) {
-    return { connected: true, status: 'connected', details: 'Configured via WEATHER_API_KEY' };
-  }
-  if (normalized.includes('notion') && process.env.NOTION_API_KEY) {
-    return { connected: true, status: 'connected', details: 'Configured via NOTION_API_KEY' };
-  }
-  if (normalized.includes('resend') && process.env.RESEND_API_KEY) {
-    return { connected: true, status: 'connected', details: 'Configured via RESEND_API_KEY' };
-  }
+  const normalized = providerName.toLowerCase().replace(/[^a-z0-9]/g, '');
 
-  // Check Swytchcode auth status via CLI
   try {
-    const { stdout } = await runSwytchcodeCli(['auth', 'status']);
-    if (stdout.toLowerCase().includes(normalized) && stdout.toLowerCase().includes('connected')) {
-      return { connected: true, status: 'connected', details: 'Authenticated via Swytchcode Workspace' };
+    // 1. Inspect table from `swytchcode auth connect`
+    const { stdout } = await runSwytchcodeCli(['auth', 'connect']);
+    const lines = stdout.split('\n').filter(l => l.trim().length > 0);
+    for (const line of lines) {
+      const parts = line.trim().split(/\s+/);
+      if (parts.length >= 3) {
+        const pName = parts[0].toLowerCase().replace(/[^a-z0-9]/g, '');
+        const pType = parts[1] as 'oauth2' | 'api_key';
+        const pStatus = parts[2].toLowerCase();
+        const pAccount = parts[3] || '-';
+
+        if (pName.includes(normalized) || normalized.includes(pName)) {
+          if (pStatus === 'connected') {
+            return {
+              connected: true,
+              status: 'connected',
+              authType: pType,
+              account: pAccount,
+              details: `Connected via Swytchcode ${pType.toUpperCase()} (Account: ${pAccount})`,
+            };
+          } else {
+            return {
+              connected: false,
+              status: 'requires_auth',
+              authType: pType,
+              details: pType === 'oauth2'
+                ? `Provider '${providerName}' requires OAuth2 browser authorization. Run 'swytchcode auth connect ${providerName.toLowerCase()}' in your terminal to authenticate.`
+                : `Provider '${providerName}' requires authentication. Run 'swytchcode auth connect ${providerName.toLowerCase()}' in your terminal to securely link your credentials into Swytchcode.`,
+            };
+          }
+        }
+      }
     }
   } catch (err) {
     // ignore
   }
 
-  // If in sandbox mode, sandbox execution is enabled
-  if (config.isDemoMode) {
-    return {
-      connected: true,
-      status: 'sandbox_available',
-      details: 'Operating under Swytchcode Verified Sandbox Mode',
-    };
-  }
+  // 2. Also check `swytchcode auth status`
+  try {
+    const { stdout } = await runSwytchcodeCli(['auth', 'status']);
+    if (stdout.toLowerCase().includes(normalized) && stdout.toLowerCase().includes('connected')) {
+      return { connected: true, status: 'connected', details: 'Authenticated in Swytchcode Workspace' };
+    }
+  } catch (err) {}
 
   return {
     connected: false,
     status: 'requires_auth',
-    details: `Provider '${providerName}' requires authentication. Run 'swytchcode auth connect ${providerName}' or supply an API key.`,
+    details: `Provider '${providerName}' is not connected. Run 'swytchcode auth connect ${providerName.toLowerCase()}' in your terminal.`,
   };
 }
 
@@ -145,32 +164,9 @@ export async function executeSwytchcodeMethod(
 ): Promise<{ success: boolean; data: any; isMocked: boolean; latencyMs: number; error?: string }> {
   const startTime = Date.now();
 
-  // Inject configured auth credentials if available
-  const enrichedArgs = { ...args };
-  if (canonicalId.startsWith('weatherapi.') && config.weatherApiKey) {
-    enrichedArgs.params = {
-      ...enrichedArgs.params,
-      key: config.weatherApiKey,
-    };
-  }
-
-  if (canonicalId.startsWith('resend.') && process.env.RESEND_API_KEY) {
-    enrichedArgs.headers = {
-      ...enrichedArgs.headers,
-      Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-    };
-  }
-
-  if (canonicalId.startsWith('notion.') && process.env.NOTION_API_KEY) {
-    enrichedArgs.headers = {
-      ...enrichedArgs.headers,
-      Authorization: `Bearer ${process.env.NOTION_API_KEY}`,
-    };
-  }
-
   const payload = JSON.stringify({
     tool: canonicalId,
-    args: enrichedArgs,
+    args,
   });
 
   try {
@@ -186,43 +182,24 @@ export async function executeSwytchcodeMethod(
       }
     }
 
-    // Check if error is missing credentials, sandbox mode, or network limitation
-    const isAuthOrSandbox =
-      stderr.includes('missing credentials') ||
-      stdout.includes('missing credentials') ||
-      stderr.includes('policy_denied') ||
-      config.isDemoMode;
-
-    if (isAuthOrSandbox || exitCode !== 0) {
-      console.log(`[Swytchcode Kernel] Executing under verified sandbox for ${canonicalId}`);
-      const sandboxData = generateRealisticSandboxOutput(canonicalId, enrichedArgs);
-      return {
-        success: true,
-        data: sandboxData,
-        isMocked: true,
-        latencyMs: Math.max(Date.now() - startTime, 45),
-      };
-    }
+    // Extract structured error directly from Swytchcode CLI output
+    let errorMsg = stderr.trim() || stdout.trim() || `Swytchcode execution failed with exit code ${exitCode}`;
+    try {
+      const errObj = JSON.parse(stderr.trim() || stdout.trim());
+      if (errObj?.error) {
+        errorMsg = errObj.error;
+      }
+    } catch {}
 
     return {
       success: false,
       data: null,
       isMocked: false,
       latencyMs,
-      error: stderr || stdout || `Process exited with code ${exitCode}`,
+      error: errorMsg,
     };
   } catch (err: any) {
     const latencyMs = Date.now() - startTime;
-    if (config.isDemoMode) {
-      const sandboxData = generateRealisticSandboxOutput(canonicalId, enrichedArgs);
-      return {
-        success: true,
-        data: sandboxData,
-        isMocked: true,
-        latencyMs,
-      };
-    }
-
     return {
       success: false,
       data: null,
