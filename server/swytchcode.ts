@@ -40,8 +40,8 @@ export function runSwytchcodeCli(
 
     if (inputStdin) {
       proc.stdin.write(inputStdin);
-      proc.stdin.end();
     }
+    proc.stdin.end();
   });
 }
 

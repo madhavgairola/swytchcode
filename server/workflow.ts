@@ -108,10 +108,13 @@ export async function startOrResumeWorkflow(
         message: `Searching Swytchcode remote registry for capabilities matching intent queries: [${state.goalAnalysis.requiredCapabilities.join(', ')}]...`,
       });
 
+      const results = await Promise.all(
+        state.goalAnalysis.requiredCapabilities.map(query => discoverCapabilities(query))
+      );
+
       const allCaps: DiscoveredCapability[] = [];
-      for (const query of state.goalAnalysis.requiredCapabilities) {
-        const discovered = await discoverCapabilities(query);
-        for (const cap of discovered) {
+      for (const capList of results) {
+        for (const cap of capList) {
           if (!allCaps.some(c => c.canonical_id === cap.canonical_id)) {
             allCaps.push(cap);
           }

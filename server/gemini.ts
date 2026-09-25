@@ -10,7 +10,33 @@ import {
 } from './types.js';
 
 const ai = new GoogleGenAI({ apiKey: config.geminiApiKey });
-const MODEL_NAME = 'gemini-2.5-flash';
+const PRIMARY_MODEL = 'gemini-3.5-flash-lite';
+const SECONDARY_MODEL = 'gemini-3.1-flash-lite';
+
+async function generateWithGemini(prompt: string): Promise<string> {
+  try {
+    const response = await ai.models.generateContent({
+      model: PRIMARY_MODEL,
+      contents: prompt,
+      config: {
+        responseMimeType: 'application/json',
+        temperature: 0.1,
+      },
+    });
+    return response.text || '{}';
+  } catch (primaryErr: any) {
+    console.warn(`[Gemini] Primary model ${PRIMARY_MODEL} failed, trying ${SECONDARY_MODEL}:`, primaryErr.message);
+    const response = await ai.models.generateContent({
+      model: SECONDARY_MODEL,
+      contents: prompt,
+      config: {
+        responseMimeType: 'application/json',
+        temperature: 0.1,
+      },
+    });
+    return response.text || '{}';
+  }
+}
 
 /**
  * Analyzes arbitrary user requests to extract goal, intent category, entities, and capability search queries
@@ -25,10 +51,10 @@ Analyze and return ONLY a valid JSON object matching this schema:
   "goal": "Concise 1-sentence summary of the user's primary goal",
   "intentCategory": "One of: information_retrieval | action_dispatch | data_mutation | multi_step_workflow | conversational",
   "entities": {
-    "location": "Target location or city if applicable (e.g. Jaipur, Tokyo, Agra), or null",
+    "location": "Target location or city if applicable (e.g. Gurgaon, Jaipur, Tokyo, London), or null if not specified",
     "destination": "Destination city if travel/route related, or null",
-    "durationDays": Number of days if trip or schedule related, or null,
-    "recipient": "Email address if email dispatch is requested, or null",
+    "durationDays": Number of days if trip/schedule/forecast related (e.g. 7 for 'next week', 2 for 'tomorrow', 3 for '3-day'), or null,
+    "recipient": "Email address if email dispatch is requested (e.g. madhavgairola05@gmail.com), or null if 'to me' with no address given",
     "subject": "Subject line if email or notification related, or null",
     "title": "Title for document/page/task if Notion or workspace related, or null",
     "notes": "Additional specific preferences or context mentioned"
@@ -40,16 +66,7 @@ Analyze and return ONLY a valid JSON object matching this schema:
 }`;
 
   try {
-    const response = await ai.models.generateContent({
-      model: MODEL_NAME,
-      contents: prompt,
-      config: {
-        responseMimeType: 'application/json',
-        temperature: 0.1,
-      },
-    });
-
-    const text = response.text || '{}';
+    const text = await generateWithGemini(prompt);
     const parsed = JSON.parse(text);
 
     return {
@@ -67,7 +84,7 @@ Analyze and return ONLY a valid JSON object matching this schema:
     const lower = userMessage.toLowerCase();
     const isEmail = lower.includes('email') || lower.includes('send') || lower.includes('mail');
     const isNotion = lower.includes('notion') || lower.includes('page') || lower.includes('document');
-    const isWeather = lower.includes('weather') || lower.includes('forecast') || lower.includes('trip') || lower.includes('jaipur') || lower.includes('tokyo');
+    const isWeather = lower.includes('weather') || lower.includes('forecast') || lower.includes('temp') || lower.includes('trip') || lower.includes('jaipur') || lower.includes('tokyo') || lower.includes('gurgaon');
 
     const queries: string[] = [];
     if (isWeather) queries.push('get weather forecast');
@@ -76,18 +93,21 @@ Analyze and return ONLY a valid JSON object matching this schema:
     if (queries.length === 0) queries.push('lookup information');
 
     const emailMatch = userMessage.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
-    const locMatch = userMessage.match(/\b(?:in|to|at|for)\s+([A-Z][a-zA-Z]+)/i);
-    const titleMatch = userMessage.match(/titled?\s*['"]([^'"]+)['"]/i) || userMessage.match(/page\s+titled?\s+([A-Za-z0-9 ]+)/i);
-    const subjectMatch = userMessage.match(/regarding\s+([^,.]+)/i) || userMessage.match(/subject\s+[:=]?\s*([^,.]+)/i) || userMessage.match(/about\s+([^,.]+)/i);
+    const locMatch = userMessage.match(/\b(?:in|to|at|for|about)\s+([A-Z][a-zA-Z]+)/i);
+    const isNextWeek = lower.includes('next week') || lower.includes('week') || lower.includes('7 days');
+    const isTomorrow = lower.includes('tomorrow') || lower.includes('next day');
+
+    let durationDays = isNextWeek ? 7 : (isTomorrow ? 2 : (isWeather ? 3 : undefined));
 
     return {
       goal: userMessage,
       intentCategory: queries.length > 1 ? 'multi_step_workflow' : (isEmail || isNotion ? 'action_dispatch' : 'information_retrieval'),
       entities: {
-        location: locMatch ? locMatch[1] : (isWeather ? 'Tokyo' : undefined),
+        location: locMatch ? locMatch[1] : (isWeather ? 'Gurgaon' : undefined),
+        durationDays,
         recipient: emailMatch ? emailMatch[0] : undefined,
-        title: titleMatch ? titleMatch[1].trim() : undefined,
-        subject: subjectMatch ? subjectMatch[1].trim() : (isEmail && emailMatch ? 'Autonomous Agent Notification' : undefined),
+        title: isNotion ? 'Autonomous Workspace Document' : undefined,
+        subject: isEmail ? (isWeather ? 'Weekly Weather Forecast Report' : 'Notification from Swytchcode Agent') : undefined,
       },
       requiredCapabilities: queries,
       requiresConfirmation: isEmail || isNotion,
@@ -145,16 +165,7 @@ Return ONLY a JSON object matching this schema:
 }`;
 
   try {
-    const response = await ai.models.generateContent({
-      model: MODEL_NAME,
-      contents: prompt,
-      config: {
-        responseMimeType: 'application/json',
-        temperature: 0.2,
-      },
-    });
-
-    const text = response.text || '{}';
+    const text = await generateWithGemini(prompt);
     const parsed = JSON.parse(text);
 
     const steps: PlanStep[] = (parsed.steps || []).map((s: any, idx: number) => {
@@ -321,16 +332,7 @@ Return ONLY a JSON object matching this schema:
 }`;
 
   try {
-    const response = await ai.models.generateContent({
-      model: MODEL_NAME,
-      contents: prompt,
-      config: {
-        responseMimeType: 'application/json',
-        temperature: 0.2,
-      },
-    });
-
-    const text = response.text || '{}';
+    const text = await generateWithGemini(prompt);
     const parsed = JSON.parse(text);
 
     return {

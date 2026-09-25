@@ -571,7 +571,7 @@ export default function App() {
         <div className="flex items-center space-x-3 text-xs">
           <div className="hidden sm:flex items-center space-x-1.5 px-3 py-1 rounded-full bg-gray-900 border border-gray-800 text-gray-300">
             <Sparkles className="w-3.5 h-3.5 text-cyan-400" />
-            <span>Gemini 2.5 Flash</span>
+            <span>Gemini 3.5 Flash</span>
           </div>
 
           <div className="hidden md:flex items-center space-x-1.5 px-3 py-1 rounded-full bg-gray-900 border border-gray-800 text-gray-300">

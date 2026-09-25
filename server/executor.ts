@@ -32,7 +32,10 @@ export async function executeToolWithRetry(
     if (
       lastError.includes('input validation failed') ||
       lastError.includes('missing required field') ||
-      lastError.includes('is NOT registered')
+      lastError.includes('is NOT registered') ||
+      lastError.includes('missing credentials') ||
+      lastError.includes('unauthorized') ||
+      lastError.includes('swytchcode auth connect')
     ) {
       return {
         canonicalId,
