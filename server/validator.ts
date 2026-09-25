@@ -109,6 +109,26 @@ export function getProviderForCanonicalId(canonicalId: string): string {
   return 'Swytchcode';
 }
 
+export function isPlaceholderOrEmptyEmail(email: any): boolean {
+  if (!email) return true;
+  const str = Array.isArray(email) ? String(email[0] || '') : String(email);
+  const trimmed = str.trim().toLowerCase();
+  if (!trimmed) return true;
+  if (
+    trimmed === 'me' ||
+    trimmed === 'user@example.com' ||
+    trimmed === 'recipient@example.com' ||
+    trimmed === 'your-email@example.com' ||
+    trimmed === 'name@example.com' ||
+    trimmed === 'your email' ||
+    trimmed === 'recipient'
+  ) {
+    return true;
+  }
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+  return !emailRegex.test(trimmed);
+}
+
 /**
  * Dynamically detects missing parameters for a method based on its Swytchcode contract and current context
  */
@@ -138,7 +158,7 @@ export function detectMissingFieldsForStep(
   // 2. Resend Email Create
   if (canonicalId.startsWith('resend.')) {
     const to = currentInputs.body?.to || currentInputs.to || entities.recipient || entities.to;
-    if (!to || (Array.isArray(to) && to.length === 0) || (typeof to === 'string' && !to.trim())) {
+    if (isPlaceholderOrEmptyEmail(to)) {
       missing.push({
         id: 'recipient',
         name: 'to',
@@ -230,16 +250,16 @@ export function validateAndFormatMethodInputs(
   if (canonicalId === 'resend.email.create' || canonicalId.startsWith('resend.')) {
     const body = rawArgs.body || rawArgs;
     const explicitTo = body.to !== undefined ? body.to : (rawArgs.to !== undefined ? rawArgs.to : undefined);
-    const to = explicitTo !== undefined ? explicitTo : (fallbackContext.recipient || fallbackContext.to || 'user@example.com');
+    const to = explicitTo !== undefined ? explicitTo : (fallbackContext.recipient || fallbackContext.to);
     const from = body.from || 'onboarding@resend.dev';
     const subject = body.subject || fallbackContext.subject || fallbackContext.title || 'Notification from Swytchcode Agent';
     const text = body.text || body.content || fallbackContext.text || fallbackContext.summary || 'Task completed successfully.';
     const html = body.html || undefined;
 
-    if (!to || (Array.isArray(to) && to.length === 0) || (typeof to === 'string' && !to.trim())) {
+    if (isPlaceholderOrEmptyEmail(to)) {
       return {
         isValid: false,
-        error: 'Recipient email address (to) is required.',
+        error: 'Valid recipient email address (to) is required.',
         formattedArgs: null,
       };
     }

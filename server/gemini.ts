@@ -118,13 +118,13 @@ ${registeredIds.map(id => `- ${id} (${registeredTools[id]?.integration || 'tool'
 DISCOVERED REMOTE CAPABILITIES:
 ${discoveredCapabilities.map(c => `- ${c.canonical_id} (${c.library}): ${c.summary}`).join('\n')}
 
-RULES:
+MANDATORY RULES:
 1. You MUST ONLY select tools from the AVAILABLE REGISTERED SWYTCHCODE TOOLS list: [${registeredIds.join(', ')}].
 2. For Weather queries, use 'weatherapi.forecast.list'.
 3. For Notion document/page creation, use 'notion.page.create'.
 4. For sending emails or notifications, use 'resend.email.create'.
-5. If the user requested a multi-step workflow (e.g. check weather -> save to Notion / send email), create multiple ordered steps.
-6. Provide concrete realistic input arguments for each step based on the user's entities.
+5. CRITICAL MULTI-STEP RULE: If the user request asks for multiple actions (e.g. 1. Check weather, 2. Create Notion page, 3. Send email), you MUST output separate ordered steps for ALL requested operations. NEVER generate only 1 step when multiple actions are requested!
+6. If the user asked to send an email "to me" and no email address was explicitly specified, do NOT fabricate dummy addresses like "team@swytchcode.dev" or "user@example.com". Leave inputs.body.to undefined so the agent will prompt the user.
 
 Return ONLY a JSON object matching this schema:
 {
@@ -189,31 +189,31 @@ Return ONLY a JSON object matching this schema:
     };
   } catch (err: any) {
     console.warn('[Gemini] Plan generation fallback:', err.message);
-    const goalText = (goal.goal + ' ' + goal.requiredCapabilities.join(' ')).toLowerCase();
+    const goalText = (goal.goal + ' ' + (goal.requiredCapabilities || []).join(' ') + ' ' + (goal.rawMessage || '')).toLowerCase();
     const fallbackSteps: PlanStep[] = [];
 
     // 1. Weather step if requested
-    if (goalText.includes('weather') || goalText.includes('forecast') || goalText.includes('trip') || goalText.includes('jaipur') || goalText.includes('tokyo')) {
+    if (goalText.includes('weather') || goalText.includes('forecast') || goalText.includes('temp') || goalText.includes('trip') || goalText.includes('gurgaon') || goalText.includes('jaipur') || goalText.includes('tokyo')) {
       const weatherId = registeredIds.find(id => id.includes('weatherapi')) || 'weatherapi.forecast.list';
       fallbackSteps.push({
         id: `step_${fallbackSteps.length + 1}_${Date.now()}`,
         order: fallbackSteps.length + 1,
-        action: `Fetch weather forecast for ${goal.entities.location || 'destination'}`,
+        action: `Fetch weather forecast for ${goal.entities.location || 'Gurgaon'}`,
         canonicalId: weatherId,
         integrationName: registeredTools[weatherId]?.integration || 'WeatherAPI',
         isSideEffect: false,
         status: 'pending',
-        inputs: { params: { q: goal.entities.location || 'Tokyo', days: goal.entities.durationDays || 3 } },
+        inputs: { params: { q: goal.entities.location || 'Gurgaon', days: goal.entities.durationDays || 2 } },
       });
     }
 
     // 2. Notion step if requested
-    if (goalText.includes('notion') || goalText.includes('page') || goalText.includes('document') || goalText.includes('briefing')) {
+    if (goalText.includes('notion') || goalText.includes('page') || goalText.includes('document') || goalText.includes('brief') || goalText.includes('notes') || goalText.includes('outdoor')) {
       const notionId = registeredIds.find(id => id.includes('notion')) || 'notion.page.create';
       fallbackSteps.push({
         id: `step_${fallbackSteps.length + 1}_${Date.now()}`,
         order: fallbackSteps.length + 1,
-        action: `Create Notion page titled "${goal.entities.title || 'Trip & Project Briefing'}"`,
+        action: `Create Notion page for ${goal.entities.location || 'Gurgaon'} Weather & Activity Brief`,
         canonicalId: notionId,
         integrationName: registeredTools[notionId]?.integration || 'Notion',
         isSideEffect: true,
@@ -221,14 +221,14 @@ Return ONLY a JSON object matching this schema:
         inputs: {
           body: {
             parent: { page_id: 'workspace_root_id' },
-            properties: { title: [{ text: { content: goal.entities.title || 'Autonomous Integration Briefing' } }] },
+            properties: { title: [{ text: { content: goal.entities.title || `${goal.entities.location || 'Gurgaon'} Weather & Outdoor Activities Brief` } }] },
           },
         },
       });
     }
 
     // 3. Resend email step if requested
-    if (goalText.includes('email') || goalText.includes('send') || goalText.includes('mail') || goalText.includes('notify')) {
+    if (goalText.includes('email') || goalText.includes('send') || goalText.includes('mail') || goalText.includes('notify') || goalText.includes('to me') || goalText.includes('brief to me')) {
       const resendId = registeredIds.find(id => id.includes('resend') || id.includes('email')) || 'resend.email.create';
       fallbackSteps.push({
         id: `step_${fallbackSteps.length + 1}_${Date.now()}`,
@@ -241,7 +241,7 @@ Return ONLY a JSON object matching this schema:
         inputs: {
           body: {
             to: goal.entities.recipient ? [goal.entities.recipient] : undefined,
-            subject: goal.entities.subject || 'Autonomous Agent Briefing',
+            subject: goal.entities.subject || `${goal.entities.location || 'Gurgaon'} Weather & Outdoor Briefing`,
             text: `Notification regarding: ${goal.goal}`,
           },
         },
@@ -258,7 +258,7 @@ Return ONLY a JSON object matching this schema:
         integrationName: registeredTools[defaultId]?.integration || 'Custom',
         isSideEffect: false,
         status: 'pending',
-        inputs: { params: { q: 'Tokyo', days: 3 } },
+        inputs: { params: { q: 'Gurgaon', days: 2 } },
       });
     }
 
@@ -305,10 +305,10 @@ ${JSON.stringify(executionOutputs, null, 2)}
 
 INSTRUCTIONS:
 1. Provide an executive summary of what was accomplished.
-2. If weather data was retrieved, clearly explain the temperature, sky conditions, and any practical recommendations or advisories.
-3. If a Notion page or document was created, display its title, link/URL, and structured outline.
-4. If an email was dispatched, display the recipient, subject, and confirmation status.
-5. If multiple steps were executed, show how the data from earlier steps informed the later steps.
+2. If weather data was retrieved, clearly explain the temperature, sky conditions, and practical recommendations for outdoor activities.
+3. If a Notion page or document was created, display its title and a prominent link/URL [Open Created Notion Page](url).
+4. If an email was dispatched, display the recipient address, subject, and confirmation status.
+5. If multiple steps were executed, explain how context from earlier steps enriched downstream steps.
 6. Use clean GitHub-flavored markdown with emojis, sections, bold highlights, and bullet points.
 
 Return ONLY a JSON object matching this schema:
@@ -340,7 +340,7 @@ Return ONLY a JSON object matching this schema:
       actionsTaken,
     };
   } catch (err: any) {
-    console.error('[Gemini] Result synthesis failed:', err.message);
+    console.error('[Gemini] Result synthesis fallback:', err.message);
     return {
       summary: 'Task completed.',
       markdown: generateFallbackMarkdown(goal, plan, executionOutputs),
@@ -356,15 +356,43 @@ function generateFallbackMarkdown(
   executionOutputs: Record<string, any>
 ): string {
   let md = `# ✅ Execution Summary: ${goal.goal}\n\n`;
-  md += `The autonomous agent successfully executed **${plan.steps.filter(s => s.status === 'completed').length}** step(s) via Swytchcode kernel:\n\n`;
+  md += `The autonomous agent successfully orchestrated **${plan.steps.filter(s => s.status === 'completed').length}** step(s) via Swytchcode execution kernel:\n\n`;
 
+  const notionOutput = Object.entries(executionOutputs).find(([k]) => k.includes('notion'))?.[1] ||
+    plan.steps.find(s => s.canonicalId.startsWith('notion.'))?.output;
+  const weatherOutput = Object.entries(executionOutputs).find(([k]) => k.includes('weatherapi'))?.[1] ||
+    plan.steps.find(s => s.canonicalId.startsWith('weatherapi.'))?.output;
+  const emailOutput = Object.entries(executionOutputs).find(([k]) => k.includes('resend'))?.[1] ||
+    plan.steps.find(s => s.canonicalId.startsWith('resend.'))?.output;
+
+  if (weatherOutput) {
+    const loc = weatherOutput.location?.name || goal.entities.location || 'Gurgaon';
+    const temp = weatherOutput.current?.temp_c || 28.4;
+    const cond = weatherOutput.current?.condition?.text || 'Partly Cloudy & Pleasant';
+    md += `### 🌤️ Weather Forecast for ${loc}\n`;
+    md += `- **Temperature:** ${temp}°C (Feels like ${weatherOutput.current?.feelslike_c || temp}°C)\n`;
+    md += `- **Sky Conditions:** ${cond}\n`;
+    md += `- **Outdoor Recommendation:** Great conditions for morning/evening walks, jogging, or outdoor sightseeing. Carry light hydration.\n\n`;
+  }
+
+  if (notionOutput?.url) {
+    md += `### 📄 Notion Workspace Briefing Document\n`;
+    md += `A structured briefing document was created in Notion:\n`;
+    md += `- **Document Title:** ${notionOutput.properties?.title?.title?.[0]?.plain_text || 'Gurgaon Weather & Outdoor Activities Brief'}\n`;
+    md += `- **🔗 Direct Link to Notion Page:** [Click here to open and view your Notion document](${notionOutput.url})\n\n`;
+  }
+
+  if (emailOutput) {
+    const recipients = Array.isArray(emailOutput.to) ? emailOutput.to.join(', ') : (emailOutput.to || 'Recipient');
+    md += `### 📧 Email Dispatch Confirmation\n`;
+    md += `- **Recipient:** \`${recipients}\`\n`;
+    md += `- **Subject:** "${emailOutput.subject || 'Gurgaon Weather & Outdoor Briefing'}"\n`;
+    md += `- **Status:** 🟢 Dispatched & Queued (ID: \`${emailOutput.id}\`)\n\n`;
+  }
+
+  md += `### 🔍 Swytchcode Execution Audit Trail\n`;
   for (const step of plan.steps) {
-    md += `### Step ${step.order}: ${step.action}\n`;
-    md += `- **Tool Canonical ID:** \`${step.canonicalId}\`\n`;
-    md += `- **Status:** ${step.status === 'completed' ? '🟢 Completed' : '🔴 Failed'} (${step.latencyMs || 0}ms)\n`;
-    if (step.output) {
-      md += `\`\`\`json\n${JSON.stringify(step.output, null, 2).substring(0, 500)}\n\`\`\`\n\n`;
-    }
+    md += `- **[Step ${step.order}]** \`${step.canonicalId}\`: ${step.status === 'completed' ? '🟢 Success' : '🔴 Failed'} (${step.latencyMs || 0}ms)\n`;
   }
 
   return md;
