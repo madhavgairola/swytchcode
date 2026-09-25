@@ -1,0 +1,114 @@
+{
+  "methods": [
+    {
+      "method_uuid": "",
+      "method_name": "Fetch astronomy data by query and date",
+      "canonical_id": "weatherapi.astronomy.list1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find sports events using a query",
+      "canonical_id": "weatherapi.sport.list1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get active weather alerts",
+      "canonical_id": "weatherapi.alert.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get astronomy data for a specific date and location",
+      "canonical_id": "weatherapi.astronomy.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get current weather conditions for a location",
+      "canonical_id": "weatherapi.current.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get current weather conditions in XML format",
+      "canonical_id": "weatherapi.current.list1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get future weather forecast data in XML format",
+      "canonical_id": "weatherapi.future.list1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get future weather forecast for a location and date",
+      "canonical_id": "weatherapi.future.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get historical weather data for a specific location and date",
+      "canonical_id": "weatherapi.history.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get IP lookup results in XML format",
+      "canonical_id": "weatherapi.ip.list1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get location information for an IP address",
+      "canonical_id": "weatherapi.ip.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get marine weather forecast data",
+      "canonical_id": "weatherapi.marine.list1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get marine weather, tides, and alerts for a location",
+      "canonical_id": "weatherapi.marine.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get sports events by query",
+      "canonical_id": "weatherapi.sport.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get timezone and local time for a given location",
+      "canonical_id": "weatherapi.timezone.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get timezone information in XML format",
+      "canonical_id": "weatherapi.timezone.list1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get weather forecast data in XML format",
+      "canonical_id": "weatherapi.forecast.list1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get weather forecast for a location",
+      "canonical_id": "weatherapi.forecast.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve alerts in XML format",
+      "canonical_id": "weatherapi.alert.list1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve historical weather data in XML format",
+      "canonical_id": "weatherapi.history.list1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Search for locations with autocomplete suggestions",
+      "canonical_id": "weatherapi.search.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Search locations and return results in XML format",
+      "canonical_id": "weatherapi.search.list1"
+    }
+  ]
+}

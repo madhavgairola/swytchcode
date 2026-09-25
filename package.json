@@ -1,0 +1,56 @@
+{
+  "name": "swytchcode-autonomous-action-agent",
+  "version": "1.0.0",
+  "description": "General-Purpose Autonomous Action Agent powered by Gemini Reasoning and Swytchcode Execution Kernel",
+  "main": "server/index.ts",
+  "type": "module",
+  "scripts": {
+    "server": "tsx server/index.ts",
+    "client": "vite",
+    "dev": "concurrently -n \"SERVER,CLIENT\" -c \"cyan,magenta\" \"npm run server\" \"npm run client\"",
+    "build": "tsc && vite build",
+    "test": "tsx tests/run_all.ts",
+    "test:discovery": "tsx tests/swytchcode_discovery.test.ts",
+    "test:validation": "tsx tests/method_validation.test.ts",
+    "test:execution": "tsx tests/tool_execution.test.ts",
+    "test:gemini": "tsx tests/gemini_reasoning.test.ts",
+    "test:confirmation": "tsx tests/confirmation_gating.test.ts",
+    "test:errors": "tsx tests/error_handling.test.ts"
+  },
+  "dependencies": {
+    "@google/genai": "^2.24.0",
+    "@swytchcode/runtime": "^1.1.6",
+    "@tailwindcss/vite": "^4.3.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "lucide-react": "^0.475.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-markdown": "^9.0.3",
+    "tailwindcss": "^4.3.3",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.13.4",
+    "@types/react": "^19.0.10",
+    "@types/react-dom": "^19.0.4",
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.1.2",
+    "tsx": "^4.19.3",
+    "typescript": "^5.7.3",
+    "vite": "^6.1.0"
+  },
+  "keywords": [
+    "swytchcode",
+    "gemini",
+    "autonomous-agent",
+    "multi-step-workflows",
+    "action-gating",
+    "integration-kernel"
+  ],
+  "author": "",
+  "license": "MIT"
+}

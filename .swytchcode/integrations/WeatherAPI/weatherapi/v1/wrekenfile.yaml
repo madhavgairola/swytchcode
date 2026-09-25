@@ -1,0 +1,1225 @@
+VERSION: 2.0.2
+DEFAULTS:
+  query_key: <KEY>
+  w_base_url: https://api.weatherapi.com/v1
+METHODS:
+  weatherapi.current.list:
+    SUMMARY: Get current/realtime weather
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /current.json
+      HEADERS: {}
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    SECURITY:
+      - ApiKeyAuth:
+          type: apiKey
+          in: query
+          name: key
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - key:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - q:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - lang:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+      - aqi:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+          ENUM:
+            - "yes"
+            - "no"
+      - pollen:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+          ENUM:
+            - "yes"
+            - "no"
+      - current_fields:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+    RETURNS:
+      - RETURNTYPE: map[STRING]ANY
+        RETURNVAR: weatherapi_current_list
+        STATUS: 200
+    ERRORS:
+      - TYPE: ANY
+        STATUS: 400
+        WHEN: Bad request (HTTP 400)
+      - TYPE: ANY
+        STATUS: 401
+        WHEN: Invalid API key (HTTP 401)
+      - TYPE: ANY
+        STATUS: 403
+        WHEN: Plan does not permit this endpoint/feature (HTTP 403)
+      - TYPE: ANY
+        STATUS: 429
+        WHEN: Rate limit exceeded (HTTP 429)
+    CANONICAL_ID: weatherapi.current.list
+  weatherapi.forecast.list:
+    SUMMARY: Get weather forecast
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /forecast.json
+      HEADERS: {}
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    SECURITY:
+      - ApiKeyAuth:
+          type: apiKey
+          in: query
+          name: key
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - key:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - q:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - days:
+          TYPE: INT
+          REQUIRED: true
+          LOCATION: query
+      - lang:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+      - aqi:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+          ENUM:
+            - "yes"
+            - "no"
+      - pollen:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+          ENUM:
+            - "yes"
+            - "no"
+      - alerts:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+          ENUM:
+            - "yes"
+            - "no"
+      - hour:
+          TYPE: INT
+          REQUIRED: false
+          LOCATION: query
+      - dt:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+      - unixdt:
+          TYPE: INT
+          REQUIRED: false
+          LOCATION: query
+      - tp:
+          TYPE: INT
+          REQUIRED: false
+          LOCATION: query
+      - current_fields:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+      - day_fields:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+    RETURNS:
+      - RETURNTYPE: map[STRING]ANY
+        RETURNVAR: weatherapi_forecast_list
+        STATUS: 200
+    ERRORS:
+      - TYPE: ANY
+        STATUS: 400
+        WHEN: Bad request (HTTP 400)
+      - TYPE: ANY
+        STATUS: 401
+        WHEN: Invalid API key (HTTP 401)
+      - TYPE: ANY
+        STATUS: 403
+        WHEN: Plan does not permit this endpoint/feature (HTTP 403)
+      - TYPE: ANY
+        STATUS: 429
+        WHEN: Rate limit exceeded (HTTP 429)
+    CANONICAL_ID: weatherapi.forecast.list
+  weatherapi.history.list:
+    SUMMARY: Get historical weather
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /history.json
+      HEADERS: {}
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    SECURITY:
+      - ApiKeyAuth:
+          type: apiKey
+          in: query
+          name: key
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - key:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - q:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - dt:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - unixdt:
+          TYPE: INT
+          REQUIRED: false
+          LOCATION: query
+      - end_dt:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+      - unixend_dt:
+          TYPE: INT
+          REQUIRED: false
+          LOCATION: query
+      - hour:
+          TYPE: INT
+          REQUIRED: false
+          LOCATION: query
+      - lang:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+      - aqi:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+          ENUM:
+            - "yes"
+            - "no"
+      - pollen:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+          ENUM:
+            - "yes"
+            - "no"
+      - tp:
+          TYPE: INT
+          REQUIRED: false
+          LOCATION: query
+      - current_fields:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+      - day_fields:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+    RETURNS:
+      - RETURNTYPE: map[STRING]ANY
+        RETURNVAR: weatherapi_history_list
+        STATUS: 200
+    ERRORS:
+      - TYPE: ANY
+        STATUS: 400
+        WHEN: Bad request (HTTP 400)
+      - TYPE: ANY
+        STATUS: 401
+        WHEN: Invalid API key (HTTP 401)
+      - TYPE: ANY
+        STATUS: 403
+        WHEN: Plan does not permit this endpoint/feature (HTTP 403)
+      - TYPE: ANY
+        STATUS: 429
+        WHEN: Rate limit exceeded (HTTP 429)
+    CANONICAL_ID: weatherapi.history.list
+  weatherapi.future.list:
+    SUMMARY: Get future weather forecast
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /future.json
+      HEADERS: {}
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    SECURITY:
+      - ApiKeyAuth:
+          type: apiKey
+          in: query
+          name: key
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - key:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - q:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - dt:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - lang:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+      - aqi:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+          ENUM:
+            - "yes"
+            - "no"
+      - pollen:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+          ENUM:
+            - "yes"
+            - "no"
+      - current_fields:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+      - day_fields:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+    RETURNS:
+      - RETURNTYPE: map[STRING]ANY
+        RETURNVAR: weatherapi_future_list
+        STATUS: 200
+    ERRORS:
+      - TYPE: ANY
+        STATUS: 400
+        WHEN: Bad request (HTTP 400)
+      - TYPE: ANY
+        STATUS: 401
+        WHEN: Invalid API key (HTTP 401)
+      - TYPE: ANY
+        STATUS: 403
+        WHEN: Plan does not permit this endpoint/feature (HTTP 403)
+      - TYPE: ANY
+        STATUS: 429
+        WHEN: Rate limit exceeded (HTTP 429)
+    CANONICAL_ID: weatherapi.future.list
+  weatherapi.marine.list:
+    SUMMARY: Get marine weather and tides
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /marine.json
+      HEADERS: {}
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    SECURITY:
+      - ApiKeyAuth:
+          type: apiKey
+          in: query
+          name: key
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - key:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - q:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - days:
+          TYPE: INT
+          REQUIRED: true
+          LOCATION: query
+      - lang:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+      - tides:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+          ENUM:
+            - "yes"
+            - "no"
+      - alerts:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+          ENUM:
+            - "yes"
+            - "no"
+    RETURNS:
+      - RETURNTYPE: map[STRING]ANY
+        RETURNVAR: weatherapi_marine_list
+        STATUS: 200
+    ERRORS:
+      - TYPE: ANY
+        STATUS: 400
+        WHEN: Bad request (HTTP 400)
+      - TYPE: ANY
+        STATUS: 401
+        WHEN: Invalid API key (HTTP 401)
+      - TYPE: ANY
+        STATUS: 403
+        WHEN: Plan does not permit this endpoint/feature (HTTP 403)
+      - TYPE: ANY
+        STATUS: 429
+        WHEN: Rate limit exceeded (HTTP 429)
+    CANONICAL_ID: weatherapi.marine.list
+  weatherapi.alert.list:
+    SUMMARY: Get active weather alerts
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /alerts.json
+      HEADERS: {}
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    SECURITY:
+      - ApiKeyAuth:
+          type: apiKey
+          in: query
+          name: key
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - key:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - q:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - lang:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+    RETURNS:
+      - RETURNTYPE: map[STRING]ANY
+        RETURNVAR: weatherapi_alert_list
+        STATUS: 200
+    ERRORS:
+      - TYPE: ANY
+        STATUS: 400
+        WHEN: Bad request (HTTP 400)
+      - TYPE: ANY
+        STATUS: 401
+        WHEN: Invalid API key (HTTP 401)
+      - TYPE: ANY
+        STATUS: 403
+        WHEN: Plan does not permit this endpoint/feature (HTTP 403)
+      - TYPE: ANY
+        STATUS: 429
+        WHEN: Rate limit exceeded (HTTP 429)
+    CANONICAL_ID: weatherapi.alert.list
+  weatherapi.astronomy.list:
+    SUMMARY: Get astronomy data
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /astronomy.json
+      HEADERS: {}
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    SECURITY:
+      - ApiKeyAuth:
+          type: apiKey
+          in: query
+          name: key
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - key:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - q:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - dt:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - lang:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+    RETURNS:
+      - RETURNTYPE: map[STRING]ANY
+        RETURNVAR: weatherapi_astronomy_list
+        STATUS: 200
+    ERRORS:
+      - TYPE: ANY
+        STATUS: 400
+        WHEN: Bad request (HTTP 400)
+      - TYPE: ANY
+        STATUS: 401
+        WHEN: Invalid API key (HTTP 401)
+      - TYPE: ANY
+        STATUS: 403
+        WHEN: Plan does not permit this endpoint/feature (HTTP 403)
+      - TYPE: ANY
+        STATUS: 429
+        WHEN: Rate limit exceeded (HTTP 429)
+    CANONICAL_ID: weatherapi.astronomy.list
+  weatherapi.sport.list:
+    SUMMARY: Get sports events
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /sports.json
+      HEADERS: {}
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    SECURITY:
+      - ApiKeyAuth:
+          type: apiKey
+          in: query
+          name: key
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - key:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - q:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+    RETURNS:
+      - RETURNTYPE: map[STRING]ANY
+        RETURNVAR: weatherapi_sport_list
+        STATUS: 200
+    ERRORS:
+      - TYPE: ANY
+        STATUS: 400
+        WHEN: Bad request (HTTP 400)
+      - TYPE: ANY
+        STATUS: 401
+        WHEN: Invalid API key (HTTP 401)
+      - TYPE: ANY
+        STATUS: 403
+        WHEN: Plan does not permit this endpoint/feature (HTTP 403)
+      - TYPE: ANY
+        STATUS: 429
+        WHEN: Rate limit exceeded (HTTP 429)
+    CANONICAL_ID: weatherapi.sport.list
+  weatherapi.search.list:
+    SUMMARY: Search/autocomplete locations
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /search.json
+      HEADERS: {}
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    SECURITY:
+      - ApiKeyAuth:
+          type: apiKey
+          in: query
+          name: key
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - key:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - q:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+    RETURNS:
+      - RETURNTYPE: map[STRING]ANY
+        RETURNVAR: weatherapi_search_list
+        STATUS: 200
+    ERRORS:
+      - TYPE: ANY
+        STATUS: 400
+        WHEN: Bad request (HTTP 400)
+      - TYPE: ANY
+        STATUS: 401
+        WHEN: Invalid API key (HTTP 401)
+      - TYPE: ANY
+        STATUS: 403
+        WHEN: Plan does not permit this endpoint/feature (HTTP 403)
+      - TYPE: ANY
+        STATUS: 429
+        WHEN: Rate limit exceeded (HTTP 429)
+    CANONICAL_ID: weatherapi.search.list
+  weatherapi.ip.list:
+    SUMMARY: Look up location by IP
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /ip.json
+      HEADERS: {}
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    SECURITY:
+      - ApiKeyAuth:
+          type: apiKey
+          in: query
+          name: key
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - key:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - q:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+    RETURNS:
+      - RETURNTYPE: map[STRING]ANY
+        RETURNVAR: weatherapi_ip_list
+        STATUS: 200
+    ERRORS:
+      - TYPE: ANY
+        STATUS: 400
+        WHEN: Bad request (HTTP 400)
+      - TYPE: ANY
+        STATUS: 401
+        WHEN: Invalid API key (HTTP 401)
+      - TYPE: ANY
+        STATUS: 403
+        WHEN: Plan does not permit this endpoint/feature (HTTP 403)
+      - TYPE: ANY
+        STATUS: 429
+        WHEN: Rate limit exceeded (HTTP 429)
+    CANONICAL_ID: weatherapi.ip.list
+  weatherapi.timezone.list:
+    SUMMARY: Get time zone and local time
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /timezone.json
+      HEADERS: {}
+      CONTENT_TYPE: application/json
+      ACCEPT: application/json
+    SECURITY:
+      - ApiKeyAuth:
+          type: apiKey
+          in: query
+          name: key
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - key:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - q:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+    RETURNS:
+      - RETURNTYPE: map[STRING]ANY
+        RETURNVAR: weatherapi_timezone_list
+        STATUS: 200
+    ERRORS:
+      - TYPE: ANY
+        STATUS: 400
+        WHEN: Bad request (HTTP 400)
+      - TYPE: ANY
+        STATUS: 401
+        WHEN: Invalid API key (HTTP 401)
+      - TYPE: ANY
+        STATUS: 403
+        WHEN: Plan does not permit this endpoint/feature (HTTP 403)
+      - TYPE: ANY
+        STATUS: 429
+        WHEN: Rate limit exceeded (HTTP 429)
+    CANONICAL_ID: weatherapi.timezone.list
+  weatherapi.current.list1:
+    SUMMARY: Get current weather (XML)
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /current.xml
+      HEADERS: {}
+      CONTENT_TYPE: application/json
+      ACCEPT: application/xml
+    SECURITY:
+      - ApiKeyAuth:
+          type: apiKey
+          in: query
+          name: key
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - key:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - q:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - lang:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+      - aqi:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+          ENUM:
+            - "yes"
+            - "no"
+      - pollen:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+          ENUM:
+            - "yes"
+            - "no"
+    RETURNS:
+      - RETURNTYPE: ANY
+        RETURNVAR: weatherapi_current_list1
+        STATUS: 200
+    ERRORS:
+      - TYPE: ANY
+        STATUS: 400
+        WHEN: Bad request (HTTP 400)
+      - TYPE: ANY
+        STATUS: 401
+        WHEN: Invalid API key (HTTP 401)
+      - TYPE: ANY
+        STATUS: 403
+        WHEN: Plan does not permit this endpoint/feature (HTTP 403)
+      - TYPE: ANY
+        STATUS: 429
+        WHEN: Rate limit exceeded (HTTP 429)
+    CANONICAL_ID: weatherapi.current.list1
+  weatherapi.forecast.list1:
+    SUMMARY: Get forecast (XML)
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /forecast.xml
+      HEADERS: {}
+      CONTENT_TYPE: application/json
+      ACCEPT: application/xml
+    SECURITY:
+      - ApiKeyAuth:
+          type: apiKey
+          in: query
+          name: key
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - key:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - q:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - days:
+          TYPE: INT
+          REQUIRED: true
+          LOCATION: query
+      - lang:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+      - aqi:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+          ENUM:
+            - "yes"
+            - "no"
+      - pollen:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+          ENUM:
+            - "yes"
+            - "no"
+    RETURNS:
+      - RETURNTYPE: ANY
+        RETURNVAR: weatherapi_forecast_list1
+        STATUS: 200
+    ERRORS:
+      - TYPE: ANY
+        STATUS: 400
+        WHEN: Bad request (HTTP 400)
+      - TYPE: ANY
+        STATUS: 401
+        WHEN: Invalid API key (HTTP 401)
+      - TYPE: ANY
+        STATUS: 403
+        WHEN: Plan does not permit this endpoint/feature (HTTP 403)
+      - TYPE: ANY
+        STATUS: 429
+        WHEN: Rate limit exceeded (HTTP 429)
+    CANONICAL_ID: weatherapi.forecast.list1
+  weatherapi.history.list1:
+    SUMMARY: Get historical weather (XML)
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /history.xml
+      HEADERS: {}
+      CONTENT_TYPE: application/json
+      ACCEPT: application/xml
+    SECURITY:
+      - ApiKeyAuth:
+          type: apiKey
+          in: query
+          name: key
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - key:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - q:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - dt:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - lang:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+      - aqi:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+          ENUM:
+            - "yes"
+            - "no"
+      - pollen:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+          ENUM:
+            - "yes"
+            - "no"
+    RETURNS:
+      - RETURNTYPE: ANY
+        RETURNVAR: weatherapi_history_list1
+        STATUS: 200
+    ERRORS:
+      - TYPE: ANY
+        STATUS: 400
+        WHEN: Bad request (HTTP 400)
+      - TYPE: ANY
+        STATUS: 401
+        WHEN: Invalid API key (HTTP 401)
+      - TYPE: ANY
+        STATUS: 403
+        WHEN: Plan does not permit this endpoint/feature (HTTP 403)
+      - TYPE: ANY
+        STATUS: 429
+        WHEN: Rate limit exceeded (HTTP 429)
+    CANONICAL_ID: weatherapi.history.list1
+  weatherapi.future.list1:
+    SUMMARY: Get future weather (XML)
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /future.xml
+      HEADERS: {}
+      CONTENT_TYPE: application/json
+      ACCEPT: application/xml
+    SECURITY:
+      - ApiKeyAuth:
+          type: apiKey
+          in: query
+          name: key
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - key:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - q:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - dt:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - lang:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+    RETURNS:
+      - RETURNTYPE: ANY
+        RETURNVAR: weatherapi_future_list1
+        STATUS: 200
+    ERRORS:
+      - TYPE: ANY
+        STATUS: 400
+        WHEN: Bad request (HTTP 400)
+      - TYPE: ANY
+        STATUS: 401
+        WHEN: Invalid API key (HTTP 401)
+      - TYPE: ANY
+        STATUS: 403
+        WHEN: Plan does not permit this endpoint/feature (HTTP 403)
+      - TYPE: ANY
+        STATUS: 429
+        WHEN: Rate limit exceeded (HTTP 429)
+    CANONICAL_ID: weatherapi.future.list1
+  weatherapi.marine.list1:
+    SUMMARY: Get marine weather (XML)
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /marine.xml
+      HEADERS: {}
+      CONTENT_TYPE: application/json
+      ACCEPT: application/xml
+    SECURITY:
+      - ApiKeyAuth:
+          type: apiKey
+          in: query
+          name: key
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - key:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - q:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - days:
+          TYPE: INT
+          REQUIRED: true
+          LOCATION: query
+      - tides:
+          TYPE: STRING
+          REQUIRED: false
+          LOCATION: query
+          ENUM:
+            - "yes"
+            - "no"
+    RETURNS:
+      - RETURNTYPE: ANY
+        RETURNVAR: weatherapi_marine_list1
+        STATUS: 200
+    ERRORS:
+      - TYPE: ANY
+        STATUS: 400
+        WHEN: Bad request (HTTP 400)
+      - TYPE: ANY
+        STATUS: 401
+        WHEN: Invalid API key (HTTP 401)
+      - TYPE: ANY
+        STATUS: 403
+        WHEN: Plan does not permit this endpoint/feature (HTTP 403)
+      - TYPE: ANY
+        STATUS: 429
+        WHEN: Rate limit exceeded (HTTP 429)
+    CANONICAL_ID: weatherapi.marine.list1
+  weatherapi.alert.list1:
+    SUMMARY: Get alerts (XML)
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /alerts.xml
+      HEADERS: {}
+      CONTENT_TYPE: application/json
+      ACCEPT: application/xml
+    SECURITY:
+      - ApiKeyAuth:
+          type: apiKey
+          in: query
+          name: key
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - key:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - q:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+    RETURNS:
+      - RETURNTYPE: ANY
+        RETURNVAR: weatherapi_alert_list1
+        STATUS: 200
+    ERRORS:
+      - TYPE: ANY
+        STATUS: 400
+        WHEN: Bad request (HTTP 400)
+      - TYPE: ANY
+        STATUS: 401
+        WHEN: Invalid API key (HTTP 401)
+      - TYPE: ANY
+        STATUS: 403
+        WHEN: Plan does not permit this endpoint/feature (HTTP 403)
+      - TYPE: ANY
+        STATUS: 429
+        WHEN: Rate limit exceeded (HTTP 429)
+    CANONICAL_ID: weatherapi.alert.list1
+  weatherapi.astronomy.list1:
+    SUMMARY: Get astronomy (XML)
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /astronomy.xml
+      HEADERS: {}
+      CONTENT_TYPE: application/json
+      ACCEPT: application/xml
+    SECURITY:
+      - ApiKeyAuth:
+          type: apiKey
+          in: query
+          name: key
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - key:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - q:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - dt:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+    RETURNS:
+      - RETURNTYPE: ANY
+        RETURNVAR: weatherapi_astronomy_list1
+        STATUS: 200
+    ERRORS:
+      - TYPE: ANY
+        STATUS: 400
+        WHEN: Bad request (HTTP 400)
+      - TYPE: ANY
+        STATUS: 401
+        WHEN: Invalid API key (HTTP 401)
+      - TYPE: ANY
+        STATUS: 403
+        WHEN: Plan does not permit this endpoint/feature (HTTP 403)
+      - TYPE: ANY
+        STATUS: 429
+        WHEN: Rate limit exceeded (HTTP 429)
+    CANONICAL_ID: weatherapi.astronomy.list1
+  weatherapi.sport.list1:
+    SUMMARY: Get sports events (XML)
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /sports.xml
+      HEADERS: {}
+      CONTENT_TYPE: application/json
+      ACCEPT: application/xml
+    SECURITY:
+      - ApiKeyAuth:
+          type: apiKey
+          in: query
+          name: key
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - key:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - q:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+    RETURNS:
+      - RETURNTYPE: ANY
+        RETURNVAR: weatherapi_sport_list1
+        STATUS: 200
+    ERRORS:
+      - TYPE: ANY
+        STATUS: 400
+        WHEN: Bad request (HTTP 400)
+      - TYPE: ANY
+        STATUS: 401
+        WHEN: Invalid API key (HTTP 401)
+      - TYPE: ANY
+        STATUS: 403
+        WHEN: Plan does not permit this endpoint/feature (HTTP 403)
+      - TYPE: ANY
+        STATUS: 429
+        WHEN: Rate limit exceeded (HTTP 429)
+    CANONICAL_ID: weatherapi.sport.list1
+  weatherapi.search.list1:
+    SUMMARY: Search locations (XML)
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /search.xml
+      HEADERS: {}
+      CONTENT_TYPE: application/json
+      ACCEPT: application/xml
+    SECURITY:
+      - ApiKeyAuth:
+          type: apiKey
+          in: query
+          name: key
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - key:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - q:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+    RETURNS:
+      - RETURNTYPE: ANY
+        RETURNVAR: weatherapi_search_list1
+        STATUS: 200
+    ERRORS:
+      - TYPE: ANY
+        STATUS: 400
+        WHEN: Bad request (HTTP 400)
+      - TYPE: ANY
+        STATUS: 401
+        WHEN: Invalid API key (HTTP 401)
+      - TYPE: ANY
+        STATUS: 403
+        WHEN: Plan does not permit this endpoint/feature (HTTP 403)
+      - TYPE: ANY
+        STATUS: 429
+        WHEN: Rate limit exceeded (HTTP 429)
+    CANONICAL_ID: weatherapi.search.list1
+  weatherapi.ip.list1:
+    SUMMARY: IP lookup (XML)
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /ip.xml
+      HEADERS: {}
+      CONTENT_TYPE: application/json
+      ACCEPT: application/xml
+    SECURITY:
+      - ApiKeyAuth:
+          type: apiKey
+          in: query
+          name: key
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - key:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - q:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+    RETURNS:
+      - RETURNTYPE: ANY
+        RETURNVAR: weatherapi_ip_list1
+        STATUS: 200
+    ERRORS:
+      - TYPE: ANY
+        STATUS: 400
+        WHEN: Bad request (HTTP 400)
+      - TYPE: ANY
+        STATUS: 401
+        WHEN: Invalid API key (HTTP 401)
+      - TYPE: ANY
+        STATUS: 403
+        WHEN: Plan does not permit this endpoint/feature (HTTP 403)
+      - TYPE: ANY
+        STATUS: 429
+        WHEN: Rate limit exceeded (HTTP 429)
+    CANONICAL_ID: weatherapi.ip.list1
+  weatherapi.timezone.list1:
+    SUMMARY: Get timezone (XML)
+    HTTP:
+      METHOD: GET
+      ENDPOINT: /timezone.xml
+      HEADERS: {}
+      CONTENT_TYPE: application/json
+      ACCEPT: application/xml
+    SECURITY:
+      - ApiKeyAuth:
+          type: apiKey
+          in: query
+          name: key
+    EXECUTION:
+      KIND: http
+      MODE: sync
+    INPUTS:
+      - key:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+      - q:
+          TYPE: STRING
+          REQUIRED: true
+          LOCATION: query
+    RETURNS:
+      - RETURNTYPE: ANY
+        RETURNVAR: weatherapi_timezone_list1
+        STATUS: 200
+    ERRORS:
+      - TYPE: ANY
+        STATUS: 400
+        WHEN: Bad request (HTTP 400)
+      - TYPE: ANY
+        STATUS: 401
+        WHEN: Invalid API key (HTTP 401)
+      - TYPE: ANY
+        STATUS: 403
+        WHEN: Plan does not permit this endpoint/feature (HTTP 403)
+      - TYPE: ANY
+        STATUS: 429
+        WHEN: Rate limit exceeded (HTTP 429)
+    CANONICAL_ID: weatherapi.timezone.list1
