@@ -32,6 +32,7 @@ function resolveSwytchcodeBin(): string {
 export const config = {
   port: parseInt(process.env.PORT || '3001', 10),
   geminiApiKey: process.env.GEMINI_API_KEY || '',
+  swytchcodeToken: process.env.SWYTCHCODE_TOKEN || '',
   weatherApiKey: process.env.WEATHER_API_KEY || '',
   swytchcodeBin: resolveSwytchcodeBin(),
   projectRoot: path.resolve(process.cwd()),

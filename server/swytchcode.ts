@@ -12,7 +12,11 @@ export function runSwytchcodeCli(
   return new Promise((resolve, reject) => {
     const proc = spawn(config.swytchcodeBin, args, {
       cwd: config.projectRoot,
-      env: { ...process.env, SWYTCHCODE_MODE: 'sandbox' },
+      env: {
+        ...process.env,
+        SWYTCHCODE_MODE: config.isDemoMode ? 'sandbox' : 'production',
+        SWYTCHCODE_TOKEN: config.swytchcodeToken || process.env.SWYTCHCODE_TOKEN || '',
+      },
     });
 
     let stdout = '';
