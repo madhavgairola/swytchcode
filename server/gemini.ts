@@ -64,10 +64,10 @@ Analyze and return ONLY a valid JSON object matching this schema:
     };
   } catch (err: any) {
     console.warn('[Gemini] Fallback goal parsing:', err.message);
-    // Heuristic fallback
-    const isEmail = userMessage.toLowerCase().includes('email') || userMessage.toLowerCase().includes('send');
-    const isNotion = userMessage.toLowerCase().includes('notion') || userMessage.toLowerCase().includes('page');
-    const isWeather = userMessage.toLowerCase().includes('weather') || userMessage.toLowerCase().includes('trip') || userMessage.toLowerCase().includes('jaipur');
+    const lower = userMessage.toLowerCase();
+    const isEmail = lower.includes('email') || lower.includes('send') || lower.includes('mail');
+    const isNotion = lower.includes('notion') || lower.includes('page') || lower.includes('document');
+    const isWeather = lower.includes('weather') || lower.includes('forecast') || lower.includes('trip') || lower.includes('jaipur') || lower.includes('tokyo');
 
     const queries: string[] = [];
     if (isWeather) queries.push('get weather forecast');
@@ -75,11 +75,19 @@ Analyze and return ONLY a valid JSON object matching this schema:
     if (isEmail) queries.push('send email');
     if (queries.length === 0) queries.push('lookup information');
 
+    const emailMatch = userMessage.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
+    const locMatch = userMessage.match(/\b(?:in|to|at|for)\s+([A-Z][a-zA-Z]+)/i);
+    const titleMatch = userMessage.match(/titled?\s*['"]([^'"]+)['"]/i) || userMessage.match(/page\s+titled?\s+([A-Za-z0-9 ]+)/i);
+    const subjectMatch = userMessage.match(/regarding\s+([^,.]+)/i) || userMessage.match(/subject\s+[:=]?\s*([^,.]+)/i) || userMessage.match(/about\s+([^,.]+)/i);
+
     return {
       goal: userMessage,
       intentCategory: queries.length > 1 ? 'multi_step_workflow' : (isEmail || isNotion ? 'action_dispatch' : 'information_retrieval'),
       entities: {
-        location: userMessage.match(/\b(?:to|in|at)\s+([A-Z][a-z]+)/)?.[1] || 'Jaipur',
+        location: locMatch ? locMatch[1] : (isWeather ? 'Tokyo' : undefined),
+        recipient: emailMatch ? emailMatch[0] : undefined,
+        title: titleMatch ? titleMatch[1].trim() : undefined,
+        subject: subjectMatch ? subjectMatch[1].trim() : (isEmail && emailMatch ? 'Autonomous Agent Notification' : undefined),
       },
       requiredCapabilities: queries,
       requiresConfirmation: isEmail || isNotion,
@@ -166,19 +174,9 @@ Return ONLY a JSON object matching this schema:
       };
     });
 
-    // If no steps generated, fallback to default single-step
+    // If no steps generated, fallback
     if (steps.length === 0) {
-      const defaultId = registeredIds[0] || 'weatherapi.forecast.list';
-      steps.push({
-        id: `step_1_${Date.now()}`,
-        order: 1,
-        action: `Execute ${defaultId}`,
-        canonicalId: defaultId,
-        integrationName: registeredTools[defaultId]?.integration || 'Custom',
-        isSideEffect: false,
-        status: 'pending',
-        inputs: { params: { q: goal.entities.location || 'Jaipur', days: goal.entities.durationDays || 3 } },
-      });
+      throw new Error('No steps in plan');
     }
 
     return {
@@ -192,51 +190,83 @@ Return ONLY a JSON object matching this schema:
   } catch (err: any) {
     console.warn('[Gemini] Plan generation fallback:', err.message);
     const goalText = (goal.goal + ' ' + goal.requiredCapabilities.join(' ')).toLowerCase();
-    let selectedId = registeredIds[0] || 'weatherapi.forecast.list';
-    let isSideEffect = false;
-    let inputs: any = {};
+    const fallbackSteps: PlanStep[] = [];
 
-    if (goalText.includes('email') || goalText.includes('send') || goalText.includes('mail')) {
-      selectedId = registeredIds.find(id => id.includes('resend') || id.includes('email')) || 'resend.email.create';
-      isSideEffect = true;
-      inputs = {
-        body: {
-          to: goal.entities.recipient || 'team@swytchcode.dev',
-          subject: goal.entities.subject || 'Autonomous Task Notification',
-          text: `Notification regarding: ${goal.goal}`,
+    // 1. Weather step if requested
+    if (goalText.includes('weather') || goalText.includes('forecast') || goalText.includes('trip') || goalText.includes('jaipur') || goalText.includes('tokyo')) {
+      const weatherId = registeredIds.find(id => id.includes('weatherapi')) || 'weatherapi.forecast.list';
+      fallbackSteps.push({
+        id: `step_${fallbackSteps.length + 1}_${Date.now()}`,
+        order: fallbackSteps.length + 1,
+        action: `Fetch weather forecast for ${goal.entities.location || 'destination'}`,
+        canonicalId: weatherId,
+        integrationName: registeredTools[weatherId]?.integration || 'WeatherAPI',
+        isSideEffect: false,
+        status: 'pending',
+        inputs: { params: { q: goal.entities.location || 'Tokyo', days: goal.entities.durationDays || 3 } },
+      });
+    }
+
+    // 2. Notion step if requested
+    if (goalText.includes('notion') || goalText.includes('page') || goalText.includes('document') || goalText.includes('briefing')) {
+      const notionId = registeredIds.find(id => id.includes('notion')) || 'notion.page.create';
+      fallbackSteps.push({
+        id: `step_${fallbackSteps.length + 1}_${Date.now()}`,
+        order: fallbackSteps.length + 1,
+        action: `Create Notion page titled "${goal.entities.title || 'Trip & Project Briefing'}"`,
+        canonicalId: notionId,
+        integrationName: registeredTools[notionId]?.integration || 'Notion',
+        isSideEffect: true,
+        status: 'pending',
+        inputs: {
+          body: {
+            parent: { page_id: 'workspace_root_id' },
+            properties: { title: [{ text: { content: goal.entities.title || 'Autonomous Integration Briefing' } }] },
+          },
         },
-      };
-    } else if (goalText.includes('notion') || goalText.includes('page') || goalText.includes('document')) {
-      selectedId = registeredIds.find(id => id.includes('notion') || id.includes('page')) || 'notion.page.create';
-      isSideEffect = true;
-      inputs = {
-        body: {
-          parent: { page_id: 'workspace_root_id' },
-          properties: { title: [{ text: { content: goal.entities.title || goal.goal } }] },
+      });
+    }
+
+    // 3. Resend email step if requested
+    if (goalText.includes('email') || goalText.includes('send') || goalText.includes('mail') || goalText.includes('notify')) {
+      const resendId = registeredIds.find(id => id.includes('resend') || id.includes('email')) || 'resend.email.create';
+      fallbackSteps.push({
+        id: `step_${fallbackSteps.length + 1}_${Date.now()}`,
+        order: fallbackSteps.length + 1,
+        action: `Send notification email to ${goal.entities.recipient || 'recipient'}`,
+        canonicalId: resendId,
+        integrationName: registeredTools[resendId]?.integration || 'Resend',
+        isSideEffect: true,
+        status: 'pending',
+        inputs: {
+          body: {
+            to: goal.entities.recipient ? [goal.entities.recipient] : undefined,
+            subject: goal.entities.subject || 'Autonomous Agent Briefing',
+            text: `Notification regarding: ${goal.goal}`,
+          },
         },
-      };
-    } else {
-      selectedId = registeredIds.find(id => id.includes('weatherapi')) || registeredIds[0] || 'weatherapi.forecast.list';
-      isSideEffect = false;
-      inputs = { params: { q: goal.entities.location || goal.entities.destination || 'Jaipur', days: goal.entities.durationDays || 3 } };
+      });
+    }
+
+    if (fallbackSteps.length === 0) {
+      const defaultId = registeredIds[0] || 'weatherapi.forecast.list';
+      fallbackSteps.push({
+        id: `step_1_${Date.now()}`,
+        order: 1,
+        action: `Execute ${defaultId}`,
+        canonicalId: defaultId,
+        integrationName: registeredTools[defaultId]?.integration || 'Custom',
+        isSideEffect: false,
+        status: 'pending',
+        inputs: { params: { q: 'Tokyo', days: 3 } },
+      });
     }
 
     return {
       planId: `plan_${Date.now()}`,
       title: goal.goal,
-      description: `Autonomous execution of ${selectedId}`,
-      steps: [
-        {
-          id: `step_1_${Date.now()}`,
-          order: 1,
-          action: `Execute ${selectedId}`,
-          canonicalId: selectedId,
-          integrationName: registeredTools[selectedId]?.integration || 'Custom',
-          isSideEffect,
-          status: 'pending',
-          inputs,
-        },
-      ],
+      description: `Autonomous sequential execution of ${fallbackSteps.length} step(s)`,
+      steps: fallbackSteps,
       currentStepIndex: 0,
       status: 'ready',
     };

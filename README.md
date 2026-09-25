@@ -38,10 +38,13 @@ Interactive Web UI (Real-time SSE progress tracker, confirmation banner, audit l
 1. **General-Purpose Reasoning**: Understands diverse user intents across information retrieval, workspace management, transactional messaging, and multi-step tasks without hardcoding domains.
 2. **Dynamic Semantic Discovery**: Queries Swytchcode's live registry dynamically to identify relevant canonical IDs for any natural language intent.
 3. **Strict Policy & Allowlist Validation**: Authoritatively enforces that only methods explicitly registered in `.swytchcode/tooling.json` are permitted to execute. Unregistered or malicious methods are rejected immediately.
-4. **Human-in-the-Loop Confirmation Gating**: Consequential actions (e.g. sending emails via `resend.email.create`, creating workspace pages via `notion.page.create`) require explicit user approval before execution unless configured for auto-approval.
-5. **Context Chaining**: Data from upstream steps (e.g. weather forecast metrics) is passed as enriched context to downstream steps (e.g. Notion page body, email text).
-6. **Dual Execution Mode**: Supports live API execution with secure credentials or realistic deterministic sandbox simulation for testing and demos.
-7. **Complete Auditability**: Every executed step records latency, execution status, input/output schemas, and sandbox flags for full developer transparency.
+4. **Dynamic Missing Information Forms**: Automatically inspects method schemas and active context to detect missing required parameters, rendering dynamic input forms that explain why each field is needed.
+5. **Provider Authentication Lifecycle**: Actively verifies provider authorization state using Swytchcode and prompts users to connect credentials seamlessly.
+6. **Human-in-the-Loop Confirmation Gating**: Consequential actions (e.g. sending emails via `resend.email.create`, creating workspace pages via `notion.page.create`) require explicit user approval before execution unless configured for auto-approval.
+7. **Pause & Resume State Machine**: Complete 11-state state machine supporting checkpoints, paused workflows, resumption on input submission, auth verification, or confirmation approvals.
+8. **Context Chaining**: Data from upstream steps (e.g. weather forecast metrics) is passed as enriched context to downstream steps (e.g. Notion page body, email text).
+9. **Dual Execution Mode**: Supports live API execution with secure credentials or realistic deterministic sandbox simulation for testing and demos.
+10. **Complete Auditability**: Every executed step records latency, execution status, input/output schemas, and sandbox flags for full developer transparency.
 
 ---
 
@@ -87,19 +90,20 @@ Open your browser at `http://localhost:5173`.
 
 ## 🧪 Comprehensive Automated Test Matrix
 
-The project includes an end-to-end automated verification test matrix covering discovery, validation, kernel execution, reasoning, safety gating, and error handling:
+The project includes an end-to-end automated verification test matrix covering all 7 test suites (21 verification checks):
 
 ```bash
 npm test
 ```
 
 ### Individual Test Suites
-- **Dynamic Discovery Test**: `npm run test:discovery`
-- **Method & Parameter Validation Test**: `npm run test:validation`
-- **Multi-Tool Kernel Execution Test**: `npm run test:execution`
-- **Gemini Reasoning & Planning Test**: `npm run test:gemini`
-- **Consequential Action Gating Test**: `npm run test:confirmation`
-- **Error Handling & Security Boundaries**: `npm run test:errors`
+- **Dynamic Discovery Test**: `npx tsx tests/swytchcode_discovery.test.ts`
+- **Method & Parameter Validation Test**: `npx tsx tests/method_validation.test.ts`
+- **Multi-Tool Kernel Execution Test**: `npx tsx tests/tool_execution.test.ts`
+- **Gemini Reasoning & Planning Test**: `npx tsx tests/gemini_reasoning.test.ts`
+- **Consequential Action Gating Test**: `npx tsx tests/confirmation_gating.test.ts`
+- **Error Handling & Security Boundaries**: `npx tsx tests/error_handling.test.ts`
+- **Full Capabilities & 3-Tool Context Chaining**: `npx tsx tests/full_agent_capabilities.test.ts`
 
 ---
 
@@ -114,18 +118,19 @@ npm test
 │   ├── manifest.json             # Bundle manifest
 │   └── tooling.json              # Registered tool schemas & configuration
 ├── server/
-│   ├── types.ts                  # Domain models, plans, and workflow events
+│   ├── types.ts                  # Domain models, state machine types, and events
 │   ├── config.ts                 # Environment & binary resolution
+│   ├── workflowStore.ts          # State store, SSE subscriptions & checkpoints
 │   ├── gemini.ts                 # Google GenAI reasoning & multi-step planning
 │   ├── swytchcode.ts             # Swytchcode CLI bridge, discovery & kernel executor
-│   ├── validator.ts              # Canonical ID validation, side-effect detection & schemas
+│   ├── validator.ts              # Canonical ID validation, missing fields & side-effects
 │   ├── executor.ts               # Bounded retries and exponential backoff
-│   ├── workflow.ts               # Domain-agnostic multi-step orchestrator & safety gate
+│   ├── workflow.ts               # 11-state orchestrator, pause/resume & safety gate
 │   ├── routes.ts                 # Express REST, SSE streaming & confirmation endpoints
 │   └── index.ts                  # Express server entrypoint (:3001)
 ├── client/
 │   ├── src/
-│   │   ├── App.tsx               # Interactive chat UI, stepper, confirmation modal & tabs
+│   │   ├── App.tsx               # Interactive chat UI, dynamic forms, confirmation modal & tabs
 │   │   ├── main.tsx              # React bootstrap
 │   │   └── index.css             # Tailwind dark-theme styling
 │   └── index.html
@@ -136,7 +141,8 @@ npm test
 │   ├── gemini_reasoning.test.ts
 │   ├── confirmation_gating.test.ts
 │   ├── error_handling.test.ts
-│   └── run_all.ts                # Master test runner
+│   ├── full_agent_capabilities.test.ts
+│   └── run_all.ts                # Master test runner (all 7 suites)
 ├── package.json
 ├── tsconfig.json
 ├── vite.config.ts

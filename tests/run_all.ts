@@ -17,6 +17,7 @@ const tests = [
   { name: '4. Gemini Goal Reasoning & Plan Synthesis', file: 'tests/gemini_reasoning.test.ts' },
   { name: '5. Consequential Action Gating & Human Confirmation', file: 'tests/confirmation_gating.test.ts' },
   { name: '6. Error Handling & Security Allowlist', file: 'tests/error_handling.test.ts' },
+  { name: '7. Dynamic Missing Info Forms & 3-Tool Context Chaining', file: 'tests/full_agent_capabilities.test.ts' },
 ];
 
 console.log(`\n========================================================================================`);
@@ -76,6 +77,6 @@ if (!allPassed) {
   console.error('\n❌ Some tests failed. Please review output above.');
   process.exit(1);
 } else {
-  console.log('\n🎉 ALL 6 TEST SUITES (18 VERIFICATION CHECKS) PASSED SUCCESSFULLY!\n');
+  console.log('\n🎉 ALL 7 TEST SUITES (21 VERIFICATION CHECKS) PASSED SUCCESSFULLY!\n');
   process.exit(0);
 }

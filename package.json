@@ -15,7 +15,8 @@
     "test:execution": "tsx tests/tool_execution.test.ts",
     "test:gemini": "tsx tests/gemini_reasoning.test.ts",
     "test:confirmation": "tsx tests/confirmation_gating.test.ts",
-    "test:errors": "tsx tests/error_handling.test.ts"
+    "test:errors": "tsx tests/error_handling.test.ts",
+    "test:capabilities": "tsx tests/full_agent_capabilities.test.ts"
   },
   "dependencies": {
     "@google/genai": "^2.24.0",

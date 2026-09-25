@@ -16,9 +16,10 @@ async function testConfirmationGating() {
     console.log('\n[Phase 1] Executing without pre-approval (Expected: Confirmation Request)...');
     const gatedResult = await runAutonomousAgentWorkflow(emailPrompt, {
       autoApproveSideEffects: false,
+      bypassAuth: true,
     });
 
-    console.log(`  -> Success: ${gatedResult.success}`);
+    console.log(`  -> Status: ${gatedResult.status}`);
     console.log(`  -> Has Confirmation Request: ${!!gatedResult.confirmationRequest}`);
     if (gatedResult.confirmationRequest) {
       console.log(`  -> Confirmation ID: ${gatedResult.confirmationRequest.confirmationId}`);
@@ -36,6 +37,7 @@ async function testConfirmationGating() {
     console.log('\n[Phase 2] Executing with user confirmation approval...');
     const approvedResult = await runAutonomousAgentWorkflow(emailPrompt, {
       autoApproveSideEffects: true,
+      bypassAuth: true,
       preApprovedConfirmationId: confId,
     });
 

@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { config } from './config.js';
-import { ValidatedMethod } from './types.js';
+import { ValidatedMethod, DynamicFormField } from './types.js';
 
 /**
  * Load locally registered tooling from .swytchcode/tooling.json
@@ -91,6 +91,100 @@ export function isConsequentialMethod(canonicalId: string): boolean {
   ];
   const lower = canonicalId.toLowerCase();
   return sideEffectPatterns.some(pattern => lower.includes(pattern));
+}
+
+/**
+ * Extracts provider integration name from canonical ID
+ */
+export function getProviderForCanonicalId(canonicalId: string): string {
+  const tools = getRegisteredTools();
+  const entry = tools[canonicalId];
+  if (entry?.integration) {
+    const parts = entry.integration.split('.');
+    return parts[0] || 'Swytchcode';
+  }
+  if (canonicalId.startsWith('weatherapi.')) return 'WeatherAPI';
+  if (canonicalId.startsWith('notion.')) return 'Notion';
+  if (canonicalId.startsWith('resend.')) return 'Resend';
+  return 'Swytchcode';
+}
+
+/**
+ * Dynamically detects missing parameters for a method based on its Swytchcode contract and current context
+ */
+export function detectMissingFieldsForStep(
+  canonicalId: string,
+  currentInputs: any = {},
+  entities: Record<string, any> = {}
+): DynamicFormField[] {
+  const missing: DynamicFormField[] = [];
+
+  // 1. WeatherAPI Forecast
+  if (canonicalId.startsWith('weatherapi.')) {
+    const q = currentInputs.params?.q || currentInputs.q || entities.location || entities.destination;
+    if (!q || String(q).trim().length < 2) {
+      missing.push({
+        id: 'location',
+        name: 'q',
+        label: 'Target Location / City',
+        type: 'text',
+        placeholder: 'e.g. Tokyo, Jaipur, London, San Francisco',
+        whyRequired: 'WeatherAPI requires a city name, postal code, or coordinates to retrieve forecast data.',
+        required: true,
+      });
+    }
+  }
+
+  // 2. Resend Email Create
+  if (canonicalId.startsWith('resend.')) {
+    const to = currentInputs.body?.to || currentInputs.to || entities.recipient || entities.to;
+    if (!to || (Array.isArray(to) && to.length === 0) || (typeof to === 'string' && !to.trim())) {
+      missing.push({
+        id: 'recipient',
+        name: 'to',
+        label: 'Recipient Email Address',
+        type: 'email',
+        placeholder: 'name@example.com',
+        whyRequired: 'Resend API requires at least one verified destination email address to dispatch the notification.',
+        required: true,
+      });
+    }
+
+    const subject = currentInputs.body?.subject || currentInputs.subject || entities.subject || entities.title;
+    if (!subject || !String(subject).trim()) {
+      missing.push({
+        id: 'subject',
+        name: 'subject',
+        label: 'Email Subject Line',
+        type: 'text',
+        placeholder: 'e.g. Swytchcode Autonomous Task Briefing',
+        whyRequired: 'Resend email schema requires a subject line.',
+        required: true,
+      });
+    }
+  }
+
+  // 3. Notion Page Create
+  if (canonicalId.startsWith('notion.')) {
+    const title =
+      currentInputs.body?.properties?.title?.[0]?.text?.content ||
+      currentInputs.title ||
+      entities.title ||
+      entities.destination;
+    if (!title || !String(title).trim()) {
+      missing.push({
+        id: 'title',
+        name: 'title',
+        label: 'Notion Page Title',
+        type: 'text',
+        placeholder: 'e.g. Project Integration Workspace Notes',
+        whyRequired: 'Notion requires a title property to create and index the new workspace document.',
+        required: true,
+      });
+    }
+  }
+
+  return missing;
 }
 
 /**
