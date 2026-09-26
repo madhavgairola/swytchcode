@@ -1,0 +1,1484 @@
+{
+  "methods": [
+    {
+      "method_uuid": "",
+      "method_name": "Abort and delete an upload session and its data",
+      "canonical_id": "box.file.uploadSessions.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Add a comment to a file or reply to an existing comment",
+      "canonical_id": "box.comment.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Add a domain to the allowed collaboration list",
+      "canonical_id": "box.collaboration_whitelist_entry.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Add a member to a shield information barrier segment",
+      "canonical_id": "box.shield_information_barrier_segment_member.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Add a shared link to a file",
+      "canonical_id": "box.file.fileIdaddSharedLink.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Add a shared link to a folder",
+      "canonical_id": "box.folder.folderIdaddSharedLink.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Add a shared link to a web link",
+      "canonical_id": "box.web_link.webLinkIdaddSharedLink.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Add a user to a group",
+      "canonical_id": "box.group_membership.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Add an email alias to a user's account",
+      "canonical_id": "box.user.emailAliases.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Add Box Skills metadata cards to a file",
+      "canonical_id": "box.file.boxSkillsCards.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Add new security classifications to enterprise",
+      "canonical_id": "box.metadata_template.schemaadd.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Add or update user avatar. + Adds or updates a user avatar.",
+      "canonical_id": "box.user.avatar.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Add security classification to a file",
+      "canonical_id": "box.file.securityClassification6VMVochwUWo.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Add security classification to a folder",
+      "canonical_id": "box.folder.securityClassification6VMVochwUWo.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Append a new level to a metadata taxonomy",
+      "canonical_id": "box.metadata_taxonomy.levelsappend.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Apply a metadata template instance to a file",
+      "canonical_id": "box.file.metadata.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Apply a metadata template to a folder",
+      "canonical_id": "box.folder.metadata.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Apply metadata cascade policy to folder and its children",
+      "canonical_id": "box.metadata_cascade_policy.apply.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Apply or update a watermark on a file",
+      "canonical_id": "box.file.watermark.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Ask AI a question about files or a Box Hub",
+      "canonical_id": "box.ai.ask.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Assign a legal hold policy to an item",
+      "canonical_id": "box.legal_hold_policy_assignment.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Assign a retention policy to an item",
+      "canonical_id": "box.retention_policy_assignment.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Assign a storage policy to an enterprise or user",
+      "canonical_id": "box.storage_policy_assignment.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Assign a task to a user",
+      "canonical_id": "box.task_assignment.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Cancel a Box Sign request",
+      "canonical_id": "box.sign_request.cancel"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Check if a file is acceptable before uploading",
+      "canonical_id": "box.file.content.execute"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Commit an upload session to create a file from uploaded chunks",
+      "canonical_id": "box.file.commit.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Copy a file request to a new folder",
+      "canonical_id": "box.file_request.copy.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Copy a file to a new location",
+      "canonical_id": "box.file.copy.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Copy a folder to a new location",
+      "canonical_id": "box.folder.copy.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a Box Sign request to send documents for signing",
+      "canonical_id": "box.sign_request.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a collaboration for a user or group on a file or folder",
+      "canonical_id": "box.collaboration.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a folder lock to prevent moving or deleting",
+      "canonical_id": "box.folder_lock.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a metadata cascade policy for a folder",
+      "canonical_id": "box.metadata_cascade_policy.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new AI agent with specified capabilities",
+      "canonical_id": "box.ai_agent.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new file upload session",
+      "canonical_id": "box.file.uploadSessions.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new folder",
+      "canonical_id": "box.folder.create.1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new legal hold policy",
+      "canonical_id": "box.legal_hold_policy.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new managed user for an enterprise",
+      "canonical_id": "box.user.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new metadata taxonomy for use in templates",
+      "canonical_id": "box.metadata_taxonomy.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new metadata taxonomy node",
+      "canonical_id": "box.metadata_taxonomy.nodes.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new metadata template for files and folders",
+      "canonical_id": "box.metadata_template.schema.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new retention policy",
+      "canonical_id": "box.retention_policy.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a new task on a file",
+      "canonical_id": "box.task.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a shield information barrier report",
+      "canonical_id": "box.shield_information_barrier_report.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a shield information barrier segment",
+      "canonical_id": "box.shield_information_barrier_segment.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a shield information barrier segment restriction",
+      "canonical_id": "box.shield_information_barrier_segment_restriction.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a shield information barrier to segregate teams",
+      "canonical_id": "box.shield_information_barrier.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a Slack integration mapping by linking a Slack channel to a Box item",
+      "canonical_id": "box.integration_mapping.slack.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a Teams integration mapping",
+      "canonical_id": "box.integration_mapping.teams.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a web link within a folder",
+      "canonical_id": "box.web_link.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create a zip download for multiple files and folders",
+      "canonical_id": "box.zip_download.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create an upload session for an existing file",
+      "canonical_id": "box.file.uploadSessions.create.1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create group. + Creates a new group of users in an enterprise. Only users with admin\npermissions can create new groups.",
+      "canonical_id": "box.group.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create metadata taxonomy levels for a given namespace and taxonomy",
+      "canonical_id": "box.metadata_taxonomy.levels.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create terms of service for an enterprise and user type",
+      "canonical_id": "box.terms_of_service.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Create terms of service status for a user",
+      "canonical_id": "box.terms_of_service_user_status.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a folder, optionally recursively",
+      "canonical_id": "box.folder.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a group by its ID",
+      "canonical_id": "box.group.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a legal hold policy",
+      "canonical_id": "box.legal_hold_policy.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a metadata taxonomy by namespace and key",
+      "canonical_id": "box.metadata_taxonomy.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a metadata taxonomy node",
+      "canonical_id": "box.metadata_taxonomy.nodes.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a metadata template and its instances",
+      "canonical_id": "box.metadata_template.schema.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a retention policy assignment",
+      "canonical_id": "box.retention_policy_assignment.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a shield information barrier segment by its ID",
+      "canonical_id": "box.shield_information_barrier_segment.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a Slack integration mapping by its ID",
+      "canonical_id": "box.integration_mapping.slack.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a specific collaboration",
+      "canonical_id": "box.collaboration.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a specific comment by its ID",
+      "canonical_id": "box.comment.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a specific device pin",
+      "canonical_id": "box.device_pinner.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a specific file request",
+      "canonical_id": "box.file_request.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a specific file version",
+      "canonical_id": "box.file.versions.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a specific retention policy",
+      "canonical_id": "box.retention_policy.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a specific task by its ID",
+      "canonical_id": "box.task.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a specific webhook",
+      "canonical_id": "box.webhook.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a user, optionally with their content",
+      "canonical_id": "box.user.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete a web link by its ID",
+      "canonical_id": "box.web_link.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete an AI agent by its ID",
+      "canonical_id": "box.ai_agent.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete metadata cascade policy by ID",
+      "canonical_id": "box.metadata_cascade_policy.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete specific file metadata",
+      "canonical_id": "box.file.metadata.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Delete specific metadata from a folder",
+      "canonical_id": "box.folder.metadata.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Download a file's content by its ID",
+      "canonical_id": "box.file.content.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Download zip archive content",
+      "canonical_id": "box.zip_download.content.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Exempt a user from collaboration domain restrictions",
+      "canonical_id": "box.collaboration_whitelist_exempt_target.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Extract freeform metadata using AI",
+      "canonical_id": "box.ai.extract.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Extract structured metadata from content using AI",
+      "canonical_id": "box.ai.extractStructured.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Fetch shield information barrier report by ID",
+      "canonical_id": "box.shield_information_barrier_report.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Fetch shield information barrier segment by ID",
+      "canonical_id": "box.shield_information_barrier_segment.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find app item for a shared link",
+      "canonical_id": "box.shared_itemsapp_item.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Find metadata template by instance ID",
+      "canonical_id": "box.metadata_template.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Generate text using AI with a prompt",
+      "canonical_id": "box.ai.textGen.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a Box Sign request by its ID",
+      "canonical_id": "box.sign_request.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a file thumbnail in various sizes and formats",
+      "canonical_id": "box.file.thumbnail.extension.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a list of enterprise users",
+      "canonical_id": "box.user.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a list of legal hold policies for an enterprise",
+      "canonical_id": "box.legal_hold_policy.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a list of recently accessed items",
+      "canonical_id": "box.recent_item.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a list of users and their terms of service acceptance status",
+      "canonical_id": "box.terms_of_service_user_status.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a metadata template by its ID",
+      "canonical_id": "box.metadata_template.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a safe domain for creating collaborations",
+      "canonical_id": "box.collaboration_whitelist_entry.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a specific collection by its ID",
+      "canonical_id": "box.collection.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a specific metadata template's schema",
+      "canonical_id": "box.metadata_template.schema.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a specific retention policy assignment",
+      "canonical_id": "box.retention_policy_assignment.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a user exempt from collaboration domain restrictions",
+      "canonical_id": "box.collaboration_whitelist_exempt_target.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a user's avatar image",
+      "canonical_id": "box.user.avatar.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get a user's email aliases",
+      "canonical_id": "box.user.emailAliases.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get all collaborations for a specific group",
+      "canonical_id": "box.group.collaborations.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get all global metadata templates",
+      "canonical_id": "box.metadata_template.global.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get all users collaborating on a file",
+      "canonical_id": "box.file.collaborations.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get app items associated with a file",
+      "canonical_id": "box.file.appItemAssociations.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get Box Skill cards for a file",
+      "canonical_id": "box.file.boxSkillsCards.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get collaborations for a specific folder",
+      "canonical_id": "box.folder.collaborations.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get details for a specific file upload session",
+      "canonical_id": "box.file.uploadSessions.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get details for a specific task assignment",
+      "canonical_id": "box.task_assignment.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get device pinner information by ID",
+      "canonical_id": "box.device_pinner.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get enterprise security classifications",
+      "canonical_id": "box.metadata_template.schema.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get folder details and its first 100 entries",
+      "canonical_id": "box.folder.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get group details by group ID",
+      "canonical_id": "box.group.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get metadata cascade policies for a folder",
+      "canonical_id": "box.metadata_cascade_policy.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get metadata for a specific file",
+      "canonical_id": "box.file.metadata.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get metadata for a specific folder",
+      "canonical_id": "box.folder.metadata.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get metadata for a specific folder and template",
+      "canonical_id": "box.folder.metadata.get.1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get pending collaboration invites",
+      "canonical_id": "box.collaboration.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get real-time servers for long-polling event stream updates",
+      "canonical_id": "box.event.execute"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get retention details for a specific file version",
+      "canonical_id": "box.file_version_retention.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get security classification metadata for a folder",
+      "canonical_id": "box.folder.securityClassification6VMVochwUWo.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get shared folder information using a shared link",
+      "canonical_id": "box.shared_itemsfolder.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get shared link for a file",
+      "canonical_id": "box.file.fileIdgetSharedLink.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get shared link information for a web link",
+      "canonical_id": "box.web_link.webLinkIdgetSharedLink.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get shield information barrier segment restriction by ID",
+      "canonical_id": "box.shield_information_barrier_segment_restriction.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get taxonomy options for a metadata template field",
+      "canonical_id": "box.metadata_template.options.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get the AI agent's default configuration",
+      "canonical_id": "box.ai_agent_default.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get the current terms of service text and settings",
+      "canonical_id": "box.terms_of_service.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get the currently authenticated user's information",
+      "canonical_id": "box.user.me.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get the status of a user invite",
+      "canonical_id": "box.invite.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get the status of a zip download",
+      "canonical_id": "box.zip_download.status.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get user and enterprise events",
+      "canonical_id": "box.event.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get watermark for a specific folder",
+      "canonical_id": "box.folder.watermark.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Get workflows that can be manually started in a folder",
+      "canonical_id": "box.workflow.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Initialize classification template with initial classifications",
+      "canonical_id": "box.metadata_template.schemaclassifications.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Invite an existing external user to your enterprise",
+      "canonical_id": "box.invite.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List a user's groups",
+      "canonical_id": "box.user.memberships.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List AI agents with filtering options",
+      "canonical_id": "box.ai_agent.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List all enterprise metadata templates",
+      "canonical_id": "box.metadata_template.enterprise.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List all enterprise storage policies",
+      "canonical_id": "box.storage_policy.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List all locks for a specific folder",
+      "canonical_id": "box.folder_lock.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List all members for a specific group",
+      "canonical_id": "box.group.memberships.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List all past versions for a file",
+      "canonical_id": "box.file.versions.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List all user collections, starting with favorites",
+      "canonical_id": "box.collection.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List all webhooks for your application",
+      "canonical_id": "box.webhook.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List allowed collaboration domains",
+      "canonical_id": "box.collaboration_whitelist_entry.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List app items associated with a folder and its ancestors",
+      "canonical_id": "box.folder.appItemAssociations.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List assignments for a specific task",
+      "canonical_id": "box.task.assignments.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List Box Sign templates created by a user",
+      "canonical_id": "box.sign_template.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List comments for a specific file",
+      "canonical_id": "box.file.comments.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List device pins for an enterprise",
+      "canonical_id": "box.enterpris.devicePinners.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List enterprise groups with optional filtering and pagination",
+      "canonical_id": "box.group.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List file version retentions for an enterprise",
+      "canonical_id": "box.file_version_retention.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List file versions on legal hold for a legal hold assignment",
+      "canonical_id": "box.file_version_legal_hold.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List file versions under retention for a policy assignment",
+      "canonical_id": "box.retention_policy_assignment.fileVersionsUnderRetention.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List files currently on hold for a legal hold policy assignment",
+      "canonical_id": "box.legal_hold_policy_assignment.filesOnHold.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List files under retention for a policy assignment",
+      "canonical_id": "box.retention_policy_assignment.filesUnderRetention.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List items that have been moved to the trash",
+      "canonical_id": "box.folder.items.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List items within a collection",
+      "canonical_id": "box.collection.items.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List items within a specific folder",
+      "canonical_id": "box.folder.items.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List legal hold policy assignments for a specific policy",
+      "canonical_id": "box.legal_hold_policy_assignment.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List metadata taxonomy nodes by namespace and taxonomy key",
+      "canonical_id": "box.metadata_taxonomy.nodes.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List past file versions on legal hold",
+      "canonical_id": "box.legal_hold_policy_assignment.fileVersionsOnHold.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List retention policy assignments for a given policy",
+      "canonical_id": "box.retention_policy.assignments.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List shield information barrier reports",
+      "canonical_id": "box.shield_information_barrier_report.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List shield information barrier segment members by segment ID",
+      "canonical_id": "box.shield_information_barrier_segment_member.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List shield information barrier segment restrictions",
+      "canonical_id": "box.shield_information_barrier_segment_restriction.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List shield information barrier segments for a given Information Barrier ID",
+      "canonical_id": "box.shield_information_barrier_segment.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List shield information barriers for the enterprise",
+      "canonical_id": "box.shield_information_barrier.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List Slack integration mappings",
+      "canonical_id": "box.integration_mapping.slack.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List storage policy assignments for an enterprise or user",
+      "canonical_id": "box.storage_policy_assignment.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List tasks for a specific file",
+      "canonical_id": "box.file.tasks.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List Teams integration mappings for your enterprise",
+      "canonical_id": "box.integration_mapping.teams.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List uploaded parts for an upload session",
+      "canonical_id": "box.file.parts.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "List users exempt from collaboration domain restrictions",
+      "canonical_id": "box.collaboration_whitelist_exempt_target.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Permanently delete a folder from trash",
+      "canonical_id": "box.folder.trash.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Permanently delete a web link from the trash",
+      "canonical_id": "box.web_link.trash.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Promote a file version to the top of its history",
+      "canonical_id": "box.file.current.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Refresh an access token using client credentials and refresh token",
+      "canonical_id": "box.oauth2.tokenrefresh.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Register a webhook to receive event notifications",
+      "canonical_id": "box.webhook.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove a domain from the allowed collaboration list",
+      "canonical_id": "box.collaboration_whitelist_entry.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove a file from your account",
+      "canonical_id": "box.file.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove a folder lock",
+      "canonical_id": "box.folder_lock.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove a legal hold policy assignment",
+      "canonical_id": "box.legal_hold_policy_assignment.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove a shield information barrier segment member by ID",
+      "canonical_id": "box.shield_information_barrier_segment_member.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove a specific task assignment",
+      "canonical_id": "box.task_assignment.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove a storage policy assignment for a user",
+      "canonical_id": "box.storage_policy_assignment.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove a Teams integration mapping",
+      "canonical_id": "box.integration_mapping.teams.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove a user from a group",
+      "canonical_id": "box.group_membership.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove a user's avatar",
+      "canonical_id": "box.user.avatar.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove a user's email alias",
+      "canonical_id": "box.user.emailAliases.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove a user's exemption from collaboration domain restrictions",
+      "canonical_id": "box.collaboration_whitelist_exempt_target.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove Box Skill cards and metadata from a file",
+      "canonical_id": "box.file.boxSkillsCards.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove classification from a folder",
+      "canonical_id": "box.folder.securityClassification6VMVochwUWo.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove security classification from a file",
+      "canonical_id": "box.file.securityClassification6VMVochwUWo.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove shared link from a file",
+      "canonical_id": "box.file.fileIdremoveSharedLink.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove shared link from a folder",
+      "canonical_id": "box.folder.folderIdremoveSharedLink.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove shared link from web link",
+      "canonical_id": "box.web_link.webLinkIdremoveSharedLink.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove shield information barrier segment restriction by ID",
+      "canonical_id": "box.shield_information_barrier_segment_restriction.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove the last level from a metadata taxonomy",
+      "canonical_id": "box.metadata_taxonomy.levelstrim.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove watermark from a file",
+      "canonical_id": "box.file.watermark.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Remove watermark from folder. + Removes the watermark from a folder.",
+      "canonical_id": "box.folder.watermark.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Request an access token using an authorization code or JWT assertion",
+      "canonical_id": "box.oauth2.token.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Request user permission to act on their behalf",
+      "canonical_id": "box.authorize.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Resend signature request email to signers",
+      "canonical_id": "box.sign_request.resend.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Restore a folder, optionally to a new parent",
+      "canonical_id": "box.folder.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Restore a specific file version",
+      "canonical_id": "box.file.versions.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Restore a trashed file, optionally to a new parent folder",
+      "canonical_id": "box.file.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Restore a web link, optionally to a new parent folder",
+      "canonical_id": "box.web_link.create.1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Restore file from trash",
+      "canonical_id": "box.file.trash.delete"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a legal hold policy assignment by its ID",
+      "canonical_id": "box.legal_hold_policy_assignment.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a list of Box Sign requests",
+      "canonical_id": "box.sign_request.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a list of retention policies",
+      "canonical_id": "box.retention_policy.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a metadata taxonomy by namespace and key",
+      "canonical_id": "box.metadata_taxonomy.get.1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a retention policy by its ID",
+      "canonical_id": "box.retention_policy.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a shield information barrier segment member by ID",
+      "canonical_id": "box.shield_information_barrier_segment_member.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a specific Box Sign template by its ID",
+      "canonical_id": "box.sign_template.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a specific collaboration by its ID",
+      "canonical_id": "box.collaboration.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a specific comment and its author details",
+      "canonical_id": "box.comment.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a specific group membership",
+      "canonical_id": "box.group_membership.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a specific legal hold policy by its ID",
+      "canonical_id": "box.legal_hold_policy.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a specific metadata cascade policy",
+      "canonical_id": "box.metadata_cascade_policy.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a specific metadata taxonomy node by its ID",
+      "canonical_id": "box.metadata_taxonomy.nodes.get.1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a specific storage policy assignment by its ID",
+      "canonical_id": "box.storage_policy_assignment.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a specific storage policy by its ID",
+      "canonical_id": "box.storage_policy.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a specific terms of service document",
+      "canonical_id": "box.terms_of_service.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a specific trashed file",
+      "canonical_id": "box.file.trash.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a specific trashed folder by its ID",
+      "canonical_id": "box.folder.trash.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a specific version of a file",
+      "canonical_id": "box.file.versions.get.1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a specific webhook by its ID",
+      "canonical_id": "box.webhook.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve a trashed web link by its ID",
+      "canonical_id": "box.web_link.trash.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve an AI agent's details using its ID",
+      "canonical_id": "box.ai_agent.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve details for a specific file request",
+      "canonical_id": "box.file_request.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve details for a specific task",
+      "canonical_id": "box.task.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve enterprise user details by ID",
+      "canonical_id": "box.user.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve file details by ID",
+      "canonical_id": "box.file.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve file information using a shared link",
+      "canonical_id": "box.shared_item.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve information about a web link by its ID",
+      "canonical_id": "box.web_link.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve legal hold policies for a file version",
+      "canonical_id": "box.file_version_legal_hold.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve metadata for a specific file and template",
+      "canonical_id": "box.file.metadata.get.1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve metadata taxonomies for a given namespace",
+      "canonical_id": "box.metadata_taxonomy.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve security classification metadata for a file",
+      "canonical_id": "box.file.securityClassification6VMVochwUWo.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve shared link details for a folder",
+      "canonical_id": "box.folder.folderIdgetSharedLink.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve shield information barrier by ID",
+      "canonical_id": "box.shield_information_barrier.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve the watermark for a specific file",
+      "canonical_id": "box.file.watermark.get"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Retrieve web link information from a shared link",
+      "canonical_id": "box.shared_itemsweb_link.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Revoke an active access token to log out a user",
+      "canonical_id": "box.oauth2.revoke.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Search for files and folders using metadata queries",
+      "canonical_id": "box.metadata_query.executeRead.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Search for files, folders, and links",
+      "canonical_id": "box.search.list"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Start a workflow manually",
+      "canonical_id": "box.workflow.start"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Terminate user group sessions and validate permissions",
+      "canonical_id": "box.group.terminateSessions.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Terminate user sessions and validate permissions",
+      "canonical_id": "box.user.terminateSessions.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Transfer user's root folder and its contents to another user",
+      "canonical_id": "box.user.0.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a collaboration, like changing ownership or accepting invites",
+      "canonical_id": "box.collaboration.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a comment's message by its ID",
+      "canonical_id": "box.comment.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a file request's status",
+      "canonical_id": "box.file_request.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a file's metadata or content",
+      "canonical_id": "box.file.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a file's security classification",
+      "canonical_id": "box.file.securityClassification6VMVochwUWo.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a file's shared link settings",
+      "canonical_id": "box.file.fileIdupdateSharedLink.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a folder's shared link settings",
+      "canonical_id": "box.folder.folderIdupdateSharedLink.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a legal hold policy",
+      "canonical_id": "box.legal_hold_policy.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a metadata taxonomy node by its ID",
+      "canonical_id": "box.metadata_taxonomy.nodes.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a retention policy by its ID",
+      "canonical_id": "box.retention_policy.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a shield information barrier segment by ID",
+      "canonical_id": "box.shield_information_barrier_segment.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a Slack integration mapping",
+      "canonical_id": "box.integration_mapping.slack.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a specific group's details",
+      "canonical_id": "box.group.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a specific metadata taxonomy by its namespace and key",
+      "canonical_id": "box.metadata_taxonomy.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a specific metadata taxonomy level by its namespace, key, and index",
+      "canonical_id": "box.metadata_taxonomy.levels.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a specific task's details or completion status",
+      "canonical_id": "box.task.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a specific terms of service",
+      "canonical_id": "box.terms_of_service.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a storage policy assignment by its ID",
+      "canonical_id": "box.storage_policy_assignment.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a task assignment's status",
+      "canonical_id": "box.task_assignment.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a Teams integration mapping with Box folder ID and options",
+      "canonical_id": "box.integration_mapping.teams.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a user's group membership",
+      "canonical_id": "box.group_membership.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a user's information",
+      "canonical_id": "box.user.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a user's terms of service status",
+      "canonical_id": "box.terms_of_service_user_status.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a web link by its ID",
+      "canonical_id": "box.web_link.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a web link's shared link",
+      "canonical_id": "box.web_link.webLinkIdupdateSharedLink.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update a webhook by its ID",
+      "canonical_id": "box.webhook.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update all Box Skill cards for a skill",
+      "canonical_id": "box.skill_invocation.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update an AI agent's configuration",
+      "canonical_id": "box.ai_agent.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update an existing metadata template schema",
+      "canonical_id": "box.metadata_template.schema.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update Box Skill cards for a file",
+      "canonical_id": "box.file.boxSkillsCards.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update enterprise security classification labels and descriptions",
+      "canonical_id": "box.metadata_template.schemaupdate.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update enterprise security classification on a folder",
+      "canonical_id": "box.folder.securityClassification6VMVochwUWo.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update file metadata for a specific template and scope",
+      "canonical_id": "box.file.metadata.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update folder details, move, or manage sharing and collaborations",
+      "canonical_id": "box.folder.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update folder watermark",
+      "canonical_id": "box.folder.watermark.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update metadata on a folder",
+      "canonical_id": "box.folder.metadata.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Update shield information barrier status by ID",
+      "canonical_id": "box.shield_information_barrier.changeStatus.create"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Upload a chunk of a file to an existing upload session",
+      "canonical_id": "box.file.uploadSessions.update"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Upload a file to Box",
+      "canonical_id": "box.file.content.create.1"
+    },
+    {
+      "method_uuid": "",
+      "method_name": "Upload a new version of a file",
+      "canonical_id": "box.file.content.create"
+    }
+  ]
+}

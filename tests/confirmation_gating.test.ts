@@ -4,8 +4,8 @@ import { config } from '../server/config.js';
 async function testConfirmationGating() {
   console.log('--- TEST 5: Consequential Action Gating & Human Confirmation Suite ---');
 
-  const emailPrompt = 'Send a notification email to team@swytchcode.dev regarding sprint completion.';
-  console.log(`Testing action gating for: "${emailPrompt}"...`);
+  const prompt = 'Create a new Notion page titled "Sprint 42 Architecture Blueprint" with summary notes.';
+  console.log(`Testing action gating for: "${prompt}"...`);
 
   // Temporarily force non-demo mode for safety verification test
   const originalMode = config.isDemoMode;
@@ -14,7 +14,7 @@ async function testConfirmationGating() {
   try {
     // 1. First run without pre-approval (Should yield awaiting_confirmation)
     console.log('\n[Phase 1] Executing without pre-approval (Expected: Confirmation Request)...');
-    const gatedResult = await runAutonomousAgentWorkflow(emailPrompt, {
+    const gatedResult = await runAutonomousAgentWorkflow(prompt, {
       autoApproveSideEffects: false,
       bypassAuth: true,
     });
@@ -35,7 +35,7 @@ async function testConfirmationGating() {
 
     // 2. Second run with user approval / auto-approve (Should dispatch to Swytchcode kernel)
     console.log('\n[Phase 2] Executing with user confirmation approval...');
-    const approvedResult = await runAutonomousAgentWorkflow(emailPrompt, {
+    const approvedResult = await runAutonomousAgentWorkflow(prompt, {
       autoApproveSideEffects: true,
       bypassAuth: true,
       preApprovedConfirmationId: confId,

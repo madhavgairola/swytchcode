@@ -15,6 +15,10 @@ build/
 
 # Swytchcode local workspace artifacts
 .swytchcode/workspace.json
+.swytchcode/*.bak
+.swytchcode/**/*.bak
+.swytchcode/*.lock
+.swytchcode/**/*.lock
 
 # Logs
 npm-debug.log*

@@ -135,11 +135,19 @@ export interface ActionAuditItem {
   output?: any;
 }
 
+export interface ArtifactLink {
+  title: string;
+  url: string;
+  type: 'notion' | 'drive' | 'slack' | 'email' | 'box' | 'web';
+  description?: string;
+}
+
 export interface TaskResult {
   summary: string;
   structuredData?: Record<string, any>;
   markdown: string;
   actionsTaken: ActionAuditItem[];
+  artifacts?: ArtifactLink[];
 }
 
 export interface WorkflowEvent {
@@ -185,3 +193,60 @@ export interface AgentResponse {
   events: WorkflowEvent[];
   error?: string;
 }
+
+export interface SyncCategoryFilters {
+  socialNetworking: boolean;
+  eventConferencePass: boolean;
+  campusOpportunity: boolean;
+  newsletterDigest: boolean;
+  directCommunication: boolean;
+  securityAlert: boolean;
+}
+
+export interface SyncFilterConfig {
+  enabled: boolean;
+  intervalMinutes: number; // 0 = manual, 15, 30, 60, 360, 1440
+  allowedDomains: string[];
+  allowedSenders: string[];
+  blockedDomains: string[];
+  categoryFilters: SyncCategoryFilters;
+  keywords: string[];
+  semanticExpansion: boolean;
+  expandedKeywords?: string[];
+  minUrgencyLevel: 'ALL' | 'LOW' | 'MEDIUM' | 'HIGH';
+  minRelevanceScore: number;
+  sendSummaryEmail?: boolean;
+  recipientEmail?: string;
+}
+
+export interface SyncRunResult {
+  runId: string;
+  timestamp: string;
+  totalFetched: number;
+  totalPassedFilters: number;
+  totalRejected: number;
+  nodesCreated: number;
+  edgesCreated: number;
+  createdNodeLabels: string[];
+  rejectionBreakdown: {
+    domainFiltered: number;
+    categoryFiltered: number;
+    keywordFiltered: number;
+    duplicate: number;
+    urgencyFiltered: number;
+  };
+  durationMs: number;
+}
+
+export interface SyncAgentStatus {
+  isRunning: boolean;
+  enabled: boolean;
+  intervalMinutes: number;
+  lastSyncTimestamp: string | null;
+  nextSyncTimestamp: string | null;
+  totalProcessedCount: number;
+  totalNodesIngested: number;
+  lastRunResult: SyncRunResult | null;
+  config: SyncFilterConfig;
+}
+

@@ -35,7 +35,10 @@ export async function executeToolWithRetry(
       lastError.includes('is NOT registered') ||
       lastError.includes('missing credentials') ||
       lastError.includes('unauthorized') ||
-      lastError.includes('swytchcode auth connect')
+      lastError.includes('No connected account found') ||
+      lastError.includes('refresh credential') ||
+      lastError.includes('"category":"auth"') ||
+      lastError.includes('swytchcode login')
     ) {
       return {
         canonicalId,

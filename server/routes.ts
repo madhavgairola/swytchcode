@@ -220,6 +220,33 @@ apiRouter.post('/workflow/:id/confirm', async (req: Request, res: Response) => {
 });
 
 /**
+ * Connect provider API key directly into Swytchcode encrypted vault and resume workflow
+ */
+apiRouter.post('/workflow/:id/connect-auth', async (req: Request, res: Response) => {
+  const { provider, apiKey } = req.body;
+  const workflowId = String(req.params.id);
+
+  if (!provider || !apiKey || typeof apiKey !== 'string' || !apiKey.trim()) {
+    return res.status(400).json({ success: false, error: 'provider and apiKey are required.' });
+  }
+
+  try {
+    const { connectProviderWithApiKey } = await import('./swytchcode.js');
+    const connectResult = await connectProviderWithApiKey(provider, apiKey);
+
+    if (!connectResult.success) {
+      return res.status(400).json({ success: false, error: connectResult.message });
+    }
+
+    // Auto-resume workflow once connected in Swytchcode
+    const result = await resumeWorkflowWithAuth(workflowId);
+    res.json(result);
+  } catch (err: any) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+/**
  * Verify authentication status and resume workflow
  */
 apiRouter.post('/workflow/:id/verify-auth', async (req: Request, res: Response) => {
@@ -244,3 +271,81 @@ apiRouter.post('/workflow/:id/cancel', (req: Request, res: Response) => {
   }
   res.json({ success: true, status: 'CANCELLED', state });
 });
+
+/**
+ * Sync Agent Status
+ */
+apiRouter.get('/sync-agent/status', async (req: Request, res: Response) => {
+  try {
+    const { syncLoopAgent } = await import('./syncLoopAgent.js');
+    res.json({ success: true, status: syncLoopAgent.getStatus() });
+  } catch (err: any) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+/**
+ * Update Sync Agent Filter Configuration
+ */
+apiRouter.post('/sync-agent/config', async (req: Request, res: Response) => {
+  try {
+    const { syncLoopAgent } = await import('./syncLoopAgent.js');
+    const updatedStatus = await syncLoopAgent.updateConfig(req.body);
+    res.json({ success: true, status: updatedStatus });
+  } catch (err: any) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+/**
+ * Trigger Immediate Background Sync Run
+ */
+apiRouter.post('/sync-agent/trigger', async (req: Request, res: Response) => {
+  try {
+    const { syncLoopAgent } = await import('./syncLoopAgent.js');
+    const { result, nodes, edges } = await syncLoopAgent.triggerSync(false);
+    res.json({ success: true, result, nodes, edges });
+  } catch (err: any) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+/**
+ * Dry-run Filter Preview (Test filter rules against recent data without persisting)
+ */
+apiRouter.post('/sync-agent/preview', async (req: Request, res: Response) => {
+  try {
+    const { syncLoopAgent } = await import('./syncLoopAgent.js');
+    const { result, previewItems } = await syncLoopAgent.triggerSync(true);
+    res.json({ success: true, result, previewItems });
+  } catch (err: any) {
+    res.status(500).json({ success: false, error: err.message });
+  }
+});
+
+/**
+ * SSE Stream for real-time background sync events & graph expansion
+ */
+apiRouter.get('/sync-agent/events', async (req: Request, res: Response) => {
+  res.setHeader('Content-Type', 'text/event-stream');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
+  res.flushHeaders?.();
+
+  const { syncLoopAgent } = await import('./syncLoopAgent.js');
+
+  const unsubscribe = syncLoopAgent.subscribe((result, nodes, edges) => {
+    res.write(`data: ${JSON.stringify({ type: 'sync_completed', result, nodes, edges })}\n\n`);
+  });
+
+  // Keep-alive heartbeat every 25 seconds
+  const heartbeat = setInterval(() => {
+    res.write(`: heartbeat\n\n`);
+  }, 25000);
+
+  req.on('close', () => {
+    clearInterval(heartbeat);
+    unsubscribe();
+  });
+});
+

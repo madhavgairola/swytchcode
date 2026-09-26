@@ -1,0 +1,25 @@
+{
+  "enabled": true,
+  "intervalMinutes": 60,
+  "allowedDomains": [],
+  "allowedSenders": [],
+  "blockedDomains": [
+    "promotions.com",
+    "spam.net"
+  ],
+  "categoryFilters": {
+    "socialNetworking": false,
+    "eventConferencePass": true,
+    "campusOpportunity": true,
+    "newsletterDigest": false,
+    "directCommunication": true,
+    "securityAlert": true
+  },
+  "keywords": [],
+  "semanticExpansion": true,
+  "expandedKeywords": [],
+  "minUrgencyLevel": "ALL",
+  "minRelevanceScore": 50,
+  "sendSummaryEmail": true,
+  "recipientEmail": "madhavgairola05@gmail.com"
+}

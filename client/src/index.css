@@ -1,32 +1,198 @@
 @import "tailwindcss";
 
 :root {
+  /* --- Dark Mode (Default) --- */
+  --bg-color: #0a0a0a;                         /* Deep matte charcoal / obsidian black */
+  --navbar-bg: #0a0a0a;                        /* Frosted sticky navbar */
+  --surface-color: rgba(255, 255, 255, 0.03);  /* Ultra-sheer glassmorphic surface */
+  --surface-color-hover: rgba(255, 255, 255, 0.05); /* Subtle 2% brightness lift on interaction */
+  --surface-border: rgba(255, 255, 255, 0.08); /* Hairline border that defines card edges */
+  --graph-canvas-bg: rgba(128, 128, 128, 0.04);/* Semi-transparent canvas background */
+  
+  --terminal-glass-bg: rgba(10, 10, 10, 0.95); /* High-opacity dark glass terminal */
+  --drawer-glass-bg: rgba(15, 23, 42, 0.95);   /* Deep slate frosted fullscreen/drawer sheet */
+  --tooltip-glass-bg: rgba(20, 20, 25, 0.80);  /* Translucent floating pill container */
+  --modal-backdrop-bg: rgba(0, 0, 0, 0.40);    /* Dimming backdrop for modals */
+  
+  --text-primary: #e8e8e8;                      /* Crisp off-white */
+  --text-secondary: #6b6b6b;                    /* Muted cool grey */
+  --accent-color: #e8e8e8;
+  --status-active: #22c55e;                     /* Terminal / live green */
+  
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'Space Mono', monospace;
+  
+  --transition-smooth: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-fast: all 0.3s ease;
   color-scheme: dark;
+}
+
+[data-theme="light"] {
+  /* --- Light Mode (Warm Paper) --- */
+  --bg-color: #f4f0ea;                         /* Warm textured cream */
+  --navbar-bg: rgba(244, 240, 234, 0.92);
+  --surface-color: rgba(0, 0, 0, 0.04);
+  --surface-color-hover: rgba(0, 0, 0, 0.07);
+  --surface-border: rgba(0, 0, 0, 0.08);
+  --graph-canvas-bg: rgba(0, 0, 0, 0.02);
+  
+  --terminal-glass-bg: rgba(255, 255, 255, 0.95);
+  --drawer-glass-bg: rgba(245, 243, 239, 0.96);
+  --tooltip-glass-bg: rgba(255, 255, 255, 0.88);
+  --modal-backdrop-bg: rgba(0, 0, 0, 0.30);
+  
+  --text-primary: #111111;
+  --text-secondary: #555555;
+  --accent-color: #111111;
+  color-scheme: light;
 }
 
 body {
   margin: 0;
-  background-color: #0B0F17;
-  color: #F3F4F6;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  transition: var(--transition-fast);
+  overflow: hidden;
 }
 
-code, pre {
-  font-family: 'JetBrains Mono', monospace;
+h1, h2, h3, h4, .font-heading {
+  font-family: var(--font-heading);
+  letter-spacing: -0.5px;
+}
+
+code, pre, .font-mono {
+  font-family: var(--font-mono);
+}
+
+/* 1. Analog Grain Layer (SVG fractalNoise @ opacity: 0.03) */
+.noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9990;
+  opacity: 0.03; /* Kept subtle to remove flatness */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+/* 2. Subtle Neon Grid Lines (30px x 30px) */
+.bg-grid-lines {
+  background-image: 
+    linear-gradient(rgba(74, 222, 128, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(74, 222, 128, 0.03) 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+
+/* 3. Ambient Blur Blobs (Top-Right: #2a2a2a, Bottom-Left: #112233) */
+.ambient-glow-top-right {
+  position: absolute;
+  top: -10%;
+  right: -5%;
+  width: 50vw;
+  height: 50vh;
+  background: radial-gradient(circle, #2a2a2a 0%, transparent 70%);
+  opacity: 0.45;
+  filter: blur(80px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ambient-glow-bottom-left {
+  position: absolute;
+  bottom: -10%;
+  left: -5%;
+  width: 50vw;
+  height: 50vh;
+  background: radial-gradient(circle, #112233 0%, transparent 70%);
+  opacity: 0.50;
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* 4. Glassmorphic Surfaces & Cards */
+.card-glass {
+  background: var(--surface-color);
+  border: 1px solid var(--surface-border);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 12px;
+  transition: var(--transition-fast);
+}
+
+.card-glass:hover {
+  background: var(--surface-color-hover);
+}
+
+/* Navbar Header */
+.navbar-glass {
+  background: var(--navbar-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--surface-border);
+}
+
+/* Tech Graph Canvas Container */
+.graph-canvas-container {
+  background: var(--graph-canvas-bg);
+  border: 1px solid var(--surface-border);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Terminal Game Window */
+.terminal-glass {
+  background: var(--terminal-glass-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--surface-border);
+}
+
+/* Mobile Hamburger Menu / History Drawer */
+.drawer-glass {
+  background: var(--drawer-glass-bg);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid var(--surface-border);
+}
+
+/* Map Widget & Tooltips */
+.tooltip-glass {
+  background: var(--tooltip-glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--surface-border);
+}
+
+/* Modal Backdrops */
+.modal-backdrop-glass {
+  background: var(--modal-backdrop-bg);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* Modal Window Gradient */
+.modal-window-gradient {
+  background: radial-gradient(circle at center, rgba(16, 18, 27, 0.8) 0%, rgba(10, 10, 15, 1) 100%);
+  border: 1px solid var(--surface-border);
 }
 
 /* Custom subtle scrollbars */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #0B0F17;
+  background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #1F2937;
+  background: rgba(255, 255, 255, 0.1);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #374151;
+  background: rgba(255, 255, 255, 0.2);
 }

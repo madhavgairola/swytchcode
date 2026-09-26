@@ -18,6 +18,8 @@ const tests = [
   { name: '5. Consequential Action Gating & Human Confirmation', file: 'tests/confirmation_gating.test.ts' },
   { name: '6. Error Handling & Security Allowlist', file: 'tests/error_handling.test.ts' },
   { name: '7. Dynamic Missing Info Forms & 3-Tool Context Chaining', file: 'tests/full_agent_capabilities.test.ts' },
+  { name: '8. Autonomous Looping Sync & Multi-Stage Filter Engine', file: 'tests/sync_and_filter_agent.test.ts' },
+  { name: '9. All 7 AI Assistants Integration (Gmail, Slack, Notion, GDrive, Box, GitHub, Calendar)', file: 'tests/assistants_integration.test.ts' },
 ];
 
 console.log(`\n========================================================================================`);
@@ -77,6 +79,6 @@ if (!allPassed) {
   console.error('\n❌ Some tests failed. Please review output above.');
   process.exit(1);
 } else {
-  console.log('\n🎉 ALL 7 TEST SUITES (21 VERIFICATION CHECKS) PASSED SUCCESSFULLY!\n');
+  console.log('\n🎉 ALL 9 TEST SUITES (27+ VERIFICATION CHECKS) PASSED SUCCESSFULLY!\n');
   process.exit(0);
 }
